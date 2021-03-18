@@ -153,7 +153,7 @@ public class CreateGrid : MonoBehaviour{
         }
 
         if(x != width && y != height && nodes[x + 1, y + 1] != null){
-            WorldTile wt2 = nodes[x, y + 1].GetComponent<WorldTile>();
+            WorldTile wt2 = nodes[x + 1, y + 1].GetComponent<WorldTile>();
             if(wt2 != null) myNeighbours.Add(wt2);
         }
 
