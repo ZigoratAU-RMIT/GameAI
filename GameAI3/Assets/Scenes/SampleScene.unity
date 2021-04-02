@@ -420,6 +420,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pf: {fileID: 1323280936}
+  nodePrefab: {fileID: 644320179408593104, guid: 5db7669cf6773e243a505b5e4ac0a2b9,
+    type: 3}
+  speed: 5
+  rotationSpeed: 0
 --- !u!1 &1394942987
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +548,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3908151727063883627, guid: 6290110f27cdd0e4a928de953692753f,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908151727063883629, guid: 6290110f27cdd0e4a928de953692753f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 19e728b684d91744ea02e27c153537f2,
+        type: 3}
     - target: {fileID: 3908151727063883631, guid: 6290110f27cdd0e4a928de953692753f,
         type: 3}
       propertyPath: cg

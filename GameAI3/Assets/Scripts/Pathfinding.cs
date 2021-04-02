@@ -62,9 +62,8 @@ public class Pathfinding : MonoBehaviour{
                     if(!openSet.Contains(neighbour))
                         openSet.Add(neighbour);
                 }
-            }
+            }   
         }
-
         return path;
     }
 
