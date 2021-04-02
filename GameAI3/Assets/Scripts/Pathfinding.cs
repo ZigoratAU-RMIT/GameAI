@@ -20,66 +20,13 @@ public class Pathfinding : MonoBehaviour{
     *************/
 
     public CreateGrid cg; //So we can access grid functions
-    public GameObject nodePrefab; //For debugging
 
     Vector3 lastDirection = Vector3.zero;
     List<WorldTile> reachedPathTiles = new List<WorldTile>();
-    List<WorldTile> path = new List<WorldTile>();
-    List<WorldTile> movementPoints = new List<WorldTile>();
-
-    private int index = 0;
-    private bool movementDone = true;
-
-    float speed = 5.0f;
-
-    void Update(){
-        if(Input.GetButtonDown("Fire1")){
-            //Make sure our movement is all reset
-            movementPoints.Clear();
-            index = 0;
-            movementDone = false;
-
-            //Finding the path - this trims the whole pathfinding algorithm down to nodes
-            //These nodes are based on when the direction the entity must go changes
-            FindPath(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            for(int i = 0; i < path.Count; i++){          
-                if(i + 1 <= path.Count - 1&& path[i].direction != path[i + 1].direction){
-                    movementPoints.Add(path[i]);
-                }
-            }
-            //Add in last position
-            movementPoints.Add(path[path.Count - 1]);
-
-            // Turn on for visual debugging
-            /*
-            for(int i = 0; i < movementPoints.Count; i++){
-                GameObject node = (GameObject)Instantiate(nodePrefab, new Vector3(movementPoints[i].cellX + 0.5f, movementPoints[i].cellY + 0.5f), Quaternion.Euler(0,0,0));
-                node.GetComponent<SpriteRenderer>().color = Color.magenta;
-            }
-            */
-        }
-
-        //The movement loop
-        //This currently does not implement any steering, and is very rudimentory
-        //Just exists to show the pathfinding works
-        //The 0.5fs added to the positions seem rather hacky, but I can't find any other way to keep the entity centred within each cell
-        if(movementDone == false){
-            //Basic movement through unity functions
-            float step = speed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f), step);
-
-            if(Vector3.Distance(transform.position, new Vector3(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f )) < 0.001f){
-                index++;
-                if(index == movementPoints.Count){
-                    movementDone = true;
-                    index = 0;
-                }
-            }
-        }
-    }
 
     //The bread and butter of the A* angorithm
-    void FindPath(Vector3 startPosition, Vector3 endPosition){
+    public List<WorldTile> FindPath(Vector3 startPosition, Vector3 endPosition){
+        List<WorldTile> path = new List<WorldTile>();
         WorldTile startNode = cg.GetWorldTileByCellPosition(startPosition);
         WorldTile targetNode = cg.GetWorldTileByCellPosition(endPosition);
         
@@ -100,7 +47,7 @@ public class Pathfinding : MonoBehaviour{
 
             if(currentNode == targetNode){
                 path = RetracePath(startNode, targetNode);
-                return;
+                return path ;
             }
 
             foreach(WorldTile neighbour in currentNode.myNeighbours){
@@ -117,6 +64,8 @@ public class Pathfinding : MonoBehaviour{
                 }
             }
         }
+
+        return path;
     }
 
     //Distance helper function
