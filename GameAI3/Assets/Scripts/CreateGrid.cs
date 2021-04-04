@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
 public class CreateGrid : MonoBehaviour{
     /*************
     The creation of the grid that we use as the basis for our A* pathfinding
     - Code sourced heavily from:
         pavcreations.com
-    
+
     - Other references from:
         http://www.jgallant.com/nodal-pathfinding-in-unity-2d-with-a-in-non-grid-based-games/
 
@@ -47,7 +48,7 @@ public class CreateGrid : MonoBehaviour{
                     bool foundObstacle = false;
                     foreach(Tilemap t in obstacleLayers){
                         TileBase tb2 = t.GetTile(new Vector3Int(i, j, 0));
-                        if(tb2 != null) 
+                        if(tb2 != null)
                             foundObstacle = true;
                     }
 
@@ -82,7 +83,7 @@ public class CreateGrid : MonoBehaviour{
                         this.gridBoundY = gridY;
                 }
             }
-            
+
             if(foundTileOnLastPass){
                 gridX++;
                 gridY = 0;
@@ -137,7 +138,7 @@ public class CreateGrid : MonoBehaviour{
         List<WorldTile> myNeighbours = new List<WorldTile>();
 
         //Need to get all 8 directions
-        // // / / // / /  
+        // // / / // / /
         //1. Up = x, y + 1;
         //2. up-right = x + 1, y + 1;
         //3. right = x + 1, y;
@@ -161,7 +162,7 @@ public class CreateGrid : MonoBehaviour{
             WorldTile wt3 = nodes[x + 1, y].GetComponent<WorldTile>();
             if(wt3 != null) myNeighbours.Add(wt3);
         }
-        
+
         if(y != 0 && x != width && nodes[x + 1, y - 1] != null){
             WorldTile wt4 = nodes[x + 1, y - 1].GetComponent<WorldTile>();
             if(wt4 != null) myNeighbours.Add(wt4);
@@ -171,7 +172,7 @@ public class CreateGrid : MonoBehaviour{
             WorldTile wt5 = nodes[x, y - 1].GetComponent<WorldTile>();
             if(wt5 != null) myNeighbours.Add(wt5);
         }
-        
+
 
         if(x != 0 && y != 0 && nodes[x - 1, y - 1] != null){
             WorldTile wt6 = nodes[x - 1, y - 1].GetComponent<WorldTile>();
@@ -182,7 +183,7 @@ public class CreateGrid : MonoBehaviour{
             WorldTile wt7 = nodes[x - 1, y].GetComponent<WorldTile>();
             if(wt7 != null) myNeighbours.Add(wt7);
         }
-        
+
         if(x != 0 && y != height && nodes[x - 1, y + 1] != null){
             WorldTile wt8 = nodes[x - 1, y + 1].GetComponent<WorldTile>();
             if(wt8 != null) myNeighbours.Add(wt8);
