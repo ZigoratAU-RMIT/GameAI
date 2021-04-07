@@ -198,8 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridBase: {fileID: 23527193}
   floor: {fileID: 1394942990}
-  obstacleLayers:
-  - {fileID: 1861741049}
+  obstacleLayer: {fileID: 1861741049}
   gridNode: {fileID: 1000101185}
   nodePrefab: {fileID: 644320179408593104, guid: 5db7669cf6773e243a505b5e4ac0a2b9,
     type: 3}
@@ -237,15 +236,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapWidth: 100
   mapHeight: 100
-  tmapSize: {x: 16, y: 16, z: 0}
+  map: {fileID: 23527193}
   baseLayer: {fileID: 1394942990}
   obstacleLayer: {fileID: 1861741049}
   grass: {fileID: 11400000, guid: 3bd58c43100742d47b1cbf600d5fb459, type: 2}
   water: {fileID: 11400000, guid: da4ce10e3d3ac7243b5f6f0ff5e0819c, type: 2}
-  scale: 15
+  scale: 10
   tree: {fileID: 11400000, guid: 605a229866c6d774382022c43a86a579, type: 2}
   rock: {fileID: 11400000, guid: 61ee011fbab39df4d9de9424673520e6, type: 2}
   startPointRadius: 5
+  riverDirection:
+  - north
+  - west
+  riverWidth: 3
+  pf: {fileID: 0}
+  cg: {fileID: 0}
+  gridNode: {fileID: 1000101185}
+  nodePrefab: {fileID: 644320179408593104, guid: 5db7669cf6773e243a505b5e4ac0a2b9,
+    type: 3}
 --- !u!1 &148819999 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3908151728394493387, guid: 6290110f27cdd0e4a928de953692753f,
@@ -306,12 +314,12 @@ PrefabInstance:
     - target: {fileID: 6315405709501267786, guid: 1340aaa6d664e9647852de73d5762622,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.7206128
+      value: 2.26
       objectReference: {fileID: 0}
     - target: {fileID: 6315405709501267786, guid: 1340aaa6d664e9647852de73d5762622,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.0512855
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 6315405709501267786, guid: 1340aaa6d664e9647852de73d5762622,
         type: 3}
@@ -1045,12 +1053,12 @@ PrefabInstance:
     - target: {fileID: 3224343113992028398, guid: 842af6c43ed347443b1268ba3618a707,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.21
+      value: -1.66
       objectReference: {fileID: 0}
     - target: {fileID: 3224343113992028398, guid: 842af6c43ed347443b1268ba3618a707,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.59
+      value: 1.21
       objectReference: {fileID: 0}
     - target: {fileID: 3224343113992028398, guid: 842af6c43ed347443b1268ba3618a707,
         type: 3}

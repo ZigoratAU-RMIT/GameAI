@@ -24,12 +24,21 @@ public class Pathfinding : MonoBehaviour{
     Vector3 lastDirection = Vector3.zero;
     List<WorldTile> reachedPathTiles = new List<WorldTile>();
 
+    //wrapper function to transform world position values to grid
+    public List<WorldTile> FindPathFromWorldPos(Vector3 startPos, Vector3 endPos){
+        WorldTile startNode = cg.GetWorldTileByCellPosition(startPos);
+        WorldTile targetNode = cg.GetWorldTileByCellPosition(endPos);
+        List<WorldTile> path = FindPath(startNode, targetNode);
+        if (path.Count == 0){
+            path.Add(startNode);
+        }
+        return path;
+    }
+
     //The bread and butter of the A* angorithm
-    public List<WorldTile> FindPath(Vector3 startPosition, Vector3 endPosition){
+    public List<WorldTile> FindPath(WorldTile startNode, WorldTile targetNode){
         List<WorldTile> path = new List<WorldTile>();
-        WorldTile startNode = cg.GetWorldTileByCellPosition(startPosition);
-        WorldTile targetNode = cg.GetWorldTileByCellPosition(endPosition);
-        
+
         List<WorldTile> openSet = new List<WorldTile>();
         HashSet<WorldTile> closedSet = new HashSet<WorldTile>();
         openSet.Add(startNode);
@@ -64,6 +73,7 @@ public class Pathfinding : MonoBehaviour{
                 }
             }   
         }
+        path.Clear();
         return path;
     }
 
@@ -73,9 +83,7 @@ public class Pathfinding : MonoBehaviour{
         int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
         int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
 
-        if(dstX > dstY)
-            return 14 * dstY + 10 * (dstX - dstY);
-        return 14 * dstX + 10 * (dstY - dstX);
+        return 14 * dstX + 10 * Mathf.Abs(dstY - dstX);
     }
 
     //The construction of the walkable path

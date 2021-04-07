@@ -20,7 +20,7 @@ public class CreateGrid : MonoBehaviour{
 
     public Grid gridBase;
     public Tilemap floor;
-    public List<Tilemap> obstacleLayers;
+    public Tilemap obstacleLayer;
     public GameObject gridNode;
     public GameObject nodePrefab;
 
@@ -30,6 +30,20 @@ public class CreateGrid : MonoBehaviour{
     public GameObject[,] nodes;
     private int gridBoundX = 0, gridBoundY = 0;
 
+    public void ConstructCreateGrid(Grid gridBase, Tilemap floor, Tilemap obstacleLayer, GameObject gridNode, GameObject nodePrefab, int scanStartX, int scanFinishX, int scanStartY, int scanFinishY){
+        this.gridBase = gridBase;
+        this.floor = floor;
+        this.obstacleLayer = obstacleLayer;
+        this.gridNode = gridNode;
+        this.nodePrefab = nodePrefab;
+        this.scanStartX = scanStartX;
+        this.scanStartY = scanStartY;
+        this.scanFinishX = scanFinishX;
+        this.scanFinishY = scanFinishY;
+        gridSizeX = Mathf.Abs(scanStartX) + Mathf.Abs(scanFinishX);
+        gridSizeY = Mathf.Abs(scanStartY) + Mathf.Abs(scanFinishY);
+
+    }
 
     void Start(){
         gridSizeX = Mathf.Abs(scanStartX) + Mathf.Abs(scanFinishX);
@@ -37,7 +51,7 @@ public class CreateGrid : MonoBehaviour{
         createGrid();
     }
 
-    void createGrid(){
+    public void createGrid(){
         int gridX = 0, gridY = 0;
         bool foundTileOnLastPass = false;
         for(int i = scanStartX; i < scanFinishX; i++){
@@ -46,11 +60,9 @@ public class CreateGrid : MonoBehaviour{
 
                 if(tb != null){
                     bool foundObstacle = false;
-                    foreach(Tilemap t in obstacleLayers){
-                        TileBase tb2 = t.GetTile(new Vector3Int(i, j, 0));
-                        if(tb2 != null)
-                            foundObstacle = true;
-                    }
+                    TileBase tb2 = obstacleLayer.GetTile(new Vector3Int(i, j, 0));
+                    if(tb2 != null)
+                        foundObstacle = true;
 
                     //The 0.5fs added to the worldposition coordinates help keep the cells centred
                     Vector3 worldPosition = new Vector3(i + 0.5f + gridBase.transform.position.x, j + 0.5f + gridBase.transform.position.y, 0);
@@ -128,6 +140,11 @@ public class CreateGrid : MonoBehaviour{
                 }
             }
         }
+        return wt;
+    }
+
+    public WorldTile GetWorldTileByGrid(int x, int y){
+        WorldTile wt = nodes[x, y].GetComponent<WorldTile>();
         return wt;
     }
 

@@ -31,7 +31,7 @@ public class Player : MonoBehaviour{
 
             //Finding the path - this trims the whole pathfinding algorithm down to nodes
             //These nodes are based on when the direction the entity must go changes
-            path = pf.FindPath(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            path = pf.FindPathFromWorldPos(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
             for(int i = 0; i < path.Count; i++){          
                 if(i + 1 <= path.Count - 1 && path[i].direction != path[i + 1].direction){
                     movementPoints.Add(path[i]);

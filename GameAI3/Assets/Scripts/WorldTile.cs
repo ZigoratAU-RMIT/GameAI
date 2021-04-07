@@ -55,5 +55,13 @@ public class WorldTile : MonoBehaviour{
             return gCost + hCost;
         }
     }
+
+    public int getGridX(){
+        return gridX;
+    }
+
+    public int getGridY(){
+        return gridY;
+    }
 }
 
