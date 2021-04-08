@@ -82,7 +82,10 @@ public class Pathfinding : MonoBehaviour{
     int GetDistance(WorldTile nodeA, WorldTile nodeB){
         int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
         int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
-
+        
+        if(dstX > dstY)
+            return 14 * dstY + 10 * (dstX - dstY);
+            
         return 14 * dstX + 10 * Mathf.Abs(dstY - dstX);
     }
 

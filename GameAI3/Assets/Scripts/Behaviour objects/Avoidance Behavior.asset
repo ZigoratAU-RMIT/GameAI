@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0304a67aec2d8bc4f8efea7552e441f1, type: 3}
-  m_Name: New Avoidance Behavior
+  m_Name: Avoidance Behavior
   m_EditorClassIdentifier: 
   filter: {fileID: 0}

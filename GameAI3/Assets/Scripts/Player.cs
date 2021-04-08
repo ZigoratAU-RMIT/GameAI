@@ -40,7 +40,7 @@ public class Player : MonoBehaviour{
             //Add in last position
             movementPoints.Add(path[path.Count - 1]);
 
-            target = new Vector2(movementPoints[index].cellX, movementPoints[index].cellY);
+            target = new Vector2(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f);
         }
     }
 
@@ -58,7 +58,7 @@ public class Player : MonoBehaviour{
         body.velocity = Vector2.ClampMagnitude(body.velocity + steering, speed);
         transform.up = body.velocity.normalized;
 
-        if(Vector3.Distance(transform.position, new Vector3(movementPoints[index].cellX, movementPoints[index].cellY)) < 0.1f){
+        if(Vector3.Distance(transform.position, new Vector3(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f)) < 0.1f){
             index++;
             if(index == movementPoints.Count){
                 movementDone = true;
@@ -66,14 +66,17 @@ public class Player : MonoBehaviour{
                 index = 0;
                 return;
             }
-            target = new Vector2(movementPoints[index].cellX, movementPoints[index].cellY);
+            target = new Vector2(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f);
         }
 
         Debug.DrawRay(transform.position, body.velocity.normalized * 2, Color.green);
         Debug.DrawRay(transform.position, desiredVelocity.normalized * 2, Color.magenta);
         for(int i = 0; i < movementPoints.Count - 1; i++){
-            Debug.DrawLine(new Vector2(movementPoints[i].cellX, movementPoints[i].cellY), new Vector2(movementPoints[i + 1].cellX, movementPoints[i + 1].cellY));
+            Debug.DrawLine(new Vector2(movementPoints[i].cellX + 0.5f, movementPoints[i].cellY + 0.5f), new Vector2(movementPoints[i + 1].cellX + 0.5f, movementPoints[i + 1].cellY + 0.5f));
         }
         Debug.DrawLine(transform.position, target, Color.blue);
+        for(int i = 0; i < path.Count - 1; i++){
+            Debug.DrawLine(new Vector2(path[i].cellX + 0.5f, path[i].cellY + 0.5f), new Vector2(path[i + 1].cellX + 0.5f, path[i + 1].cellY + 0.5f), Color.red);
+        }
     }
 }
