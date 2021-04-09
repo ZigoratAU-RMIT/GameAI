@@ -24,6 +24,11 @@ public class Player : MonoBehaviour{
 
     void Update(){
         if(Input.GetButtonDown("Fire1")){
+            //Checking to see if input is valid
+            WorldTile checkTile = pf.cg.GetWorldTileByCellPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            if(checkTile == null)
+                return;
+
             //Make sure our movement is all reset
             movementPoints.Clear();
             index = 0;
@@ -32,6 +37,7 @@ public class Player : MonoBehaviour{
             //Finding the path - this trims the whole pathfinding algorithm down to nodes
             //These nodes are based on when the direction the entity must go changes
             path = pf.FindPathFromWorldPos(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
             for(int i = 0; i < path.Count; i++){          
                 if(i + 1 <= path.Count - 1 && path[i].direction != path[i + 1].direction){
                     movementPoints.Add(path[i]);
@@ -48,6 +54,22 @@ public class Player : MonoBehaviour{
         if(movementDone == true)
             return;
 
+        if(body.velocity == Vector2.zero){
+            Vector2 oldTarget = new Vector2(movementPoints[movementPoints.Count - 1].cellX, movementPoints[movementPoints.Count - 1].cellY);
+            path = pf.FindPathFromWorldPos(transform.position, oldTarget);
+            movementPoints.Clear();
+            index = 0;
+            for(int i = 0; i < path.Count; i++){
+                if(i + 1 <= path.Count - 1 && path[i].direction != path[i + 1].direction){
+                    movementPoints.Add(path[i]);
+                }
+            }
+
+            movementPoints.Add(path[path.Count - 1]);
+
+            target = new Vector2(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f);
+        }
+
         desiredVelocity = target - (Vector2)transform.position;
         desiredVelocity = desiredVelocity.normalized * speed;
 
@@ -58,7 +80,7 @@ public class Player : MonoBehaviour{
         body.velocity = Vector2.ClampMagnitude(body.velocity + steering, speed);
         transform.up = body.velocity.normalized;
 
-        if(Vector3.Distance(transform.position, new Vector3(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f)) < 0.1f){
+        if(Vector3.Distance(transform.position, new Vector3(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f)) < 1f){
             index++;
             if(index == movementPoints.Count){
                 movementDone = true;

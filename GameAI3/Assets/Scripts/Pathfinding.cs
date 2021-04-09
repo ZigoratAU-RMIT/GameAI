@@ -60,12 +60,12 @@ public class Pathfinding : MonoBehaviour{
             }
 
             foreach(WorldTile neighbour in currentNode.myNeighbours){
-                if(!neighbour.walkable || closedSet.Contains(neighbour)) continue;
-
+                if(!neighbour.walkable || closedSet.Contains(neighbour))
+                    continue;
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
                 if(newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)){
-                    neighbour.gCost = newMovementCostToNeighbour;
-                    neighbour.hCost = GetDistance(neighbour, targetNode);
+                    neighbour.gCost = newMovementCostToNeighbour + neighbour.specialCost;
+                    neighbour.hCost = GetDistance(neighbour, targetNode) + neighbour.specialCost;
                     neighbour.parent = currentNode;
 
                     if(!openSet.Contains(neighbour))
@@ -94,9 +94,6 @@ public class Pathfinding : MonoBehaviour{
     List<WorldTile> RetracePath(WorldTile startNode, WorldTile targetNode){
         List<WorldTile> path = new List<WorldTile>();
         WorldTile currentNode = targetNode;
-
-        Debug.Log(startNode);
-
         while(currentNode != startNode){
             //direction obtained to assist with steering implementation
             currentNode.direction = GetDirection(currentNode, currentNode.parent);

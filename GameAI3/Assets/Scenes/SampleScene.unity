@@ -450,7 +450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &455644005
 Transform:
   m_ObjectHideFlags: 0
@@ -714,6 +714,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3908151727063883627, guid: 6290110f27cdd0e4a928de953692753f,
+        type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3908151727063883627, guid: 6290110f27cdd0e4a928de953692753f,
         type: 3}
       propertyPath: m_Constraints
@@ -992,7 +997,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2002512761
 MonoBehaviour:
   m_ObjectHideFlags: 0

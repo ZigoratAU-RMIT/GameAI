@@ -32,6 +32,7 @@ public class WorldTile : MonoBehaviour{
 
     public int gCost;
     public int hCost;
+    public int specialCost = 0;
     public int gridX, gridY;
     public float cellX, cellY;
     public bool walkable = true;

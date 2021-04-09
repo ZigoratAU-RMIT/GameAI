@@ -117,6 +117,10 @@ public class CreateGrid : MonoBehaviour{
                 if(nodes[i, j] != null){
                     WorldTile wt = nodes[i, j].GetComponent<WorldTile>();
                     wt.myNeighbours = getNeighbours(i, j, gridBoundX, gridBoundY);
+                    foreach(WorldTile neighbours in wt.myNeighbours){
+                        if(!neighbours.walkable)
+                            wt.specialCost = 5;
+                    }
                 }
             }
         }
@@ -167,7 +171,7 @@ public class CreateGrid : MonoBehaviour{
 
         if(y != height && nodes[x, y + 1] != null){
             WorldTile wt1 = nodes[x, y + 1].GetComponent<WorldTile>();
-            if(wt1 != null) myNeighbours.Add(wt1);
+            if(wt1 != null) myNeighbours.Add(wt1); 
         }
 
         if(x != width && y != height && nodes[x + 1, y + 1] != null){
