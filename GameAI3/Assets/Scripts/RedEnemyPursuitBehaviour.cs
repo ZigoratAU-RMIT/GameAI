@@ -29,6 +29,11 @@ public class RedEnemyPursuitBehaviour : MonoBehaviour
 
     void moveEnemy(Vector2 direction)
     {
+        if (player.transform.position.x >= 1 || player.transform.position.x <= -1)
+        {
+            rb.velocity = Vector3.zero;
+        }
+        else
         if (player.position != transform.position)
         {
             rb.MovePosition((Vector2)transform.position + (direction * moveSpeed * Time.deltaTime));
