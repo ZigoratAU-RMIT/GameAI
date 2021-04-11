@@ -35,6 +35,7 @@ public class Flock : MonoBehaviour
 
         for (int i = 0; i < startingCount; i++)
         {
+
             FlockAgent newAgent = Instantiate(
                 agentPrefab,
                 Random.insideUnitCircle * startingCount * AgentDensity,
