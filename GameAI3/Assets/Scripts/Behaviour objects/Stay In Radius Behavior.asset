@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0304a67aec2d8bc4f8efea7552e441f1, type: 3}
-  m_Name: Avoidance Behavior
+  m_Script: {fileID: 11500000, guid: c0749d2b61c079540aeb21f06f3bf461, type: 3}
+  m_Name: Stay In Radius Behavior
   m_EditorClassIdentifier: 
-  filter: {fileID: 0}
+  center: {x: 0, y: 0}
+  radius: 50
+  mapSizeX: 50
+  mapSizeY: 50

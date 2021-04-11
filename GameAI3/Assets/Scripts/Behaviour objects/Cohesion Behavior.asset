@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b97e9b053afcdc0489fa53ca93bd61b4, type: 3}
-  m_Name: New Alignment Behavior
+  m_Script: {fileID: 11500000, guid: bfae151d2431ce44f98e9001ee261d84, type: 3}
+  m_Name: Cohesion Behavior
   m_EditorClassIdentifier: 
   filter: {fileID: 0}

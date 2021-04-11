@@ -1061,7 +1061,7 @@ MonoBehaviour:
   startingCount: 250
   driveFactor: 10
   maxSpeed: 5
-  neighborRadius: 1.5
+  neighborRadius: 5
   avoidanceRadiusMultiplier: 0.5
   mapSizeX: 50
   mapSizeY: 50
@@ -1111,7 +1111,7 @@ MonoBehaviour:
   agentPrefab: {fileID: -3991543319299048411, guid: 842af6c43ed347443b1268ba3618a707,
     type: 3}
   behavior: {fileID: 11400000, guid: 781395c9cb22f734fa5f4b3c6387e168, type: 2}
-  startingCount: 250
+  startingCount: 100
   driveFactor: 10
   maxSpeed: 2
   neighborRadius: 2.7
