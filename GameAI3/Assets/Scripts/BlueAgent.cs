@@ -29,6 +29,9 @@ public class BlueAgent : MonoBehaviour
         if (distance < 5)
         {
             body.velocity = flee.calculateMove(transform.position, player.position, body, maxSpeed);
+        } else {
+            body.velocity = new Vector2(0,0);
+            // TO DO implement slow down
         }
     }
 }
