@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Flock/Behavior/Composite")]
+[CreateAssetMenu(menuName = "Flock/Behavior/Composite1")]
 public class CompositeBehavior : FlockBehavior
 {
-    public FlockBehavior[] behaviors;
+    public FlockBehavior[] behaviors ;
     public float[] weights;
+    public int i;
 
     public override Vector2 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {
