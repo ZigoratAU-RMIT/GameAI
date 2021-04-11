@@ -28,7 +28,7 @@ public class BlueAgent : MonoBehaviour
         float distance = Vector2.Distance(transform.position, player.position); // should translate this to world tiles
         if (distance < 5)
         {
-            gameObj.transform.position = flee.calculateMove(transform.position, player.position, body, maxSpeed);
+            body.velocity = flee.calculateMove(transform.position, player.position, body, maxSpeed);
         }
     }
 }
