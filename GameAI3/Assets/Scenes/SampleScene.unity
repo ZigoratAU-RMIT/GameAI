@@ -1066,8 +1066,8 @@ MonoBehaviour:
   startingCount: 250
   driveFactor: 10
   maxSpeed: 5
-  neighborRadius: 5
-  avoidanceRadiusMultiplier: 0.5
+  neighborRadius: 4.2
+  avoidanceRadiusMultiplier: 0.71
   mapSizeX: 50
   mapSizeY: 50
 --- !u!4 &1944534069
@@ -1305,11 +1305,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4429059887734991080, guid: 842af6c43ed347443b1268ba3618a707,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 842af6c43ed347443b1268ba3618a707, type: 3}
