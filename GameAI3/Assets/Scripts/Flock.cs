@@ -26,6 +26,10 @@ public class Flock : MonoBehaviour
     float squareAvoidanceRadius;
     public float SquareAvoidanceRadius { get { return squareAvoidanceRadius; } }
 
+    public int mapSizeX = 50;
+
+    public int mapSizeY = 50;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +42,8 @@ public class Flock : MonoBehaviour
 
             FlockAgent newAgent = Instantiate(
                 agentPrefab,
-                Random.insideUnitCircle * startingCount * AgentDensity,
+
+                new Vector3(Random.Range(-mapSizeX, mapSizeX), Random.Range(-mapSizeY, mapSizeY),0),
                 Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)),
                 transform
                 );

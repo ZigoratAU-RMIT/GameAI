@@ -7,6 +7,8 @@ public class StayInRadiusBehavior : FlockBehavior
 {
     public Vector2 center;
     public float radius = 15f;
+    public int mapSizeX = 50;
+    public int mapSizeY = 50;
 
     public override Vector2 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {

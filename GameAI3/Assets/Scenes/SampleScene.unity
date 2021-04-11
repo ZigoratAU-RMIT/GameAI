@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!156049354 &23527193
 Grid:
   m_ObjectHideFlags: 0
@@ -164,7 +164,7 @@ Transform:
   - {fileID: 1394942988}
   - {fileID: 1861741047}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &94874094
 GameObject:
@@ -220,7 +220,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &94874097
 MonoBehaviour:
@@ -438,7 +438,7 @@ Transform:
   m_Children:
   - {fileID: 2075480337}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &680226716 stripped
 GameObject:
@@ -523,7 +523,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1114170782 stripped
 Transform:
@@ -1026,6 +1026,59 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!1 &1944534067
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1944534069}
+  - component: {fileID: 1944534068}
+  m_Layer: 0
+  m_Name: Blue Flocking
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1944534068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944534067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e916fa2b0747745a07b9ae295d7f06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentPrefab: {fileID: 4733996566344311434, guid: 1340aaa6d664e9647852de73d5762622,
+    type: 3}
+  behavior: {fileID: 11400000, guid: 82d53351c84cd9547a557ddf4f258607, type: 2}
+  startingCount: 250
+  driveFactor: 10
+  maxSpeed: 5
+  neighborRadius: 1.5
+  avoidanceRadiusMultiplier: 0.5
+  mapSizeX: 50
+  mapSizeY: 50
+--- !u!4 &1944534069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944534067}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -32.569412, y: -0.13593113, z: -6.0162883}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2002512760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,7 +1090,7 @@ GameObject:
   - component: {fileID: 2002512762}
   - component: {fileID: 2002512761}
   m_Layer: 0
-  m_Name: Flocking
+  m_Name: Red Flocking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1060,9 +1113,11 @@ MonoBehaviour:
   behavior: {fileID: 11400000, guid: 781395c9cb22f734fa5f4b3c6387e168, type: 2}
   startingCount: 250
   driveFactor: 10
-  maxSpeed: 5
+  maxSpeed: 2
   neighborRadius: 2.7
   avoidanceRadiusMultiplier: 0.63
+  mapSizeX: 50
+  mapSizeY: 50
 --- !u!4 &2002512762
 Transform:
   m_ObjectHideFlags: 0
