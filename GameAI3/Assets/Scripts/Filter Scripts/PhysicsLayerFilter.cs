@@ -14,6 +14,7 @@ public class PhysicsLayerFilter : ContextFilter
         {
             if (mask == (mask | (1 << item.gameObject.layer)))
             {
+               // Debug.Log(item);
                 filtered.Add(item);
             }
         }
