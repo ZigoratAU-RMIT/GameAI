@@ -30,6 +30,12 @@ public class MapGenerator : MonoBehaviour {
 
     [Range(0,20)]
     public int startPointRadius=5;
+
+    // NPC
+    public GameObject dwarf;
+    public int dwarfNum = 15;
+    public GameObject goblin;
+    public int goblinNum = 5;
     
     // RIVER GENERATION HELPER VARIABLES
     // public string[] riverDirection = {"north", "south"};
@@ -58,18 +64,35 @@ public class MapGenerator : MonoBehaviour {
                 baseLayer.SetTile(TmapTransform(x, y), grass);
                 
                 // set obstacle
-                if (!InStartPointRadius(-x + mapWidth/2, -y + mapHeight/2)){
-                    float xCoord = -(float)x/mapWidth * scale + offsetX;
-                    float yCoord = -(float)y/mapHeight * scale + offsetY;
-                    float sample = Mathf.PerlinNoise(xCoord, yCoord); // value would be between 0 and 1 inclusive
+                if (IsMapEdge(x,y)){
+                    obstacleLayer.SetTile(TmapTransform(x,y), tree);
+                } else {
+                    if (!InStartPointRadius(-x + mapWidth/2, -y + mapHeight/2)){
+                        float xCoord = -(float)x/mapWidth * scale + offsetX;
+                        float yCoord = -(float)y/mapHeight * scale + offsetY;
+                        float sample = Mathf.PerlinNoise(xCoord, yCoord); // value would be between 0 and 1 inclusive
 
-                    if (sample > 0f && sample <= 0.2f){
-                        obstacleLayer.SetTile(TmapTransform(x, y), rock);
-                    } else if (sample > 0.2f && sample <= 0.4f){ //|| sample > 0.65f && sample <= 0.7f  ){
-                        obstacleLayer.SetTile(TmapTransform(x, y), tree);
+                        if (sample > 0f && sample <= 0.2f){
+                            obstacleLayer.SetTile(TmapTransform(x, y), rock);
+                        } else if (sample > 0.2f && sample <= 0.4f){ //|| sample > 0.65f && sample <= 0.7f  ){
+                            obstacleLayer.SetTile(TmapTransform(x, y), tree);
+                        }
                     }
                 }
             }
+        }
+
+        GridLayout gl = obstacleLayer.transform.parent.GetComponentInParent<GridLayout>();
+        
+        // NPC generation
+        for(int i=0;i<dwarfNum;i++){
+            Vector3 dwarfPos = (Vector3)gl.WorldToCell(GetRandomPoint());
+            Instantiate(dwarf, dwarfPos, Quaternion.identity);
+        }
+
+        for(int i=0;i<goblinNum;i++){
+            Vector3 goblinPos = (Vector3)gl.WorldToCell(GetRandomPoint());
+            Instantiate(goblin, goblinPos, Quaternion.identity);
         }
     }
 
@@ -81,6 +104,18 @@ public class MapGenerator : MonoBehaviour {
         Vector3Int tmap = new Vector3Int(xTmap, yTmap, zTmap);
 
         return tmap;
+    }
+
+    Vector3Int GetRandomPoint(){
+        bool pass = false;
+        int x = 0;
+        int y = 0;
+        while(!pass){
+            x = Random.Range(0, mapWidth-1);
+            y = Random.Range(0, mapHeight-1);
+            pass = ObstacleFree(TmapTransform(x,y));
+        }
+        return TmapTransform(x,y);
     }
 
     // to be replaced by reachable point method
@@ -96,6 +131,14 @@ public class MapGenerator : MonoBehaviour {
 
     bool ObstacleFree(Vector3Int checkPoint){
         return !obstacleLayer.HasTile(checkPoint);
+    }
+
+    bool IsMapEdge(int x, int y){
+        bool edge = false;
+        if (x == 0 || x == mapWidth-1 || y == 0 || y == mapHeight-1){
+            edge = true;
+        }
+        return edge;
     }
 
     // RIVER GENERATION CODE
