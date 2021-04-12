@@ -30,21 +30,6 @@ public class CreateGrid : MonoBehaviour{
     public GameObject[,] nodes;
     private int gridBoundX = 0, gridBoundY = 0;
 
-    public void ConstructCreateGrid(Grid gridBase, Tilemap floor, Tilemap obstacleLayer, GameObject gridNode, GameObject nodePrefab, int scanStartX, int scanFinishX, int scanStartY, int scanFinishY){
-        this.gridBase = gridBase;
-        this.floor = floor;
-        this.obstacleLayer = obstacleLayer;
-        this.gridNode = gridNode;
-        this.nodePrefab = nodePrefab;
-        this.scanStartX = scanStartX;
-        this.scanStartY = scanStartY;
-        this.scanFinishX = scanFinishX;
-        this.scanFinishY = scanFinishY;
-        gridSizeX = Mathf.Abs(scanStartX) + Mathf.Abs(scanFinishX);
-        gridSizeY = Mathf.Abs(scanStartY) + Mathf.Abs(scanFinishY);
-
-    }
-
     void Start(){
         gridSizeX = Mathf.Abs(scanStartX) + Mathf.Abs(scanFinishX);
         gridSizeY = Mathf.Abs(scanStartY) + Mathf.Abs(scanFinishY);
@@ -144,11 +129,6 @@ public class CreateGrid : MonoBehaviour{
                 }
             }
         }
-        return wt;
-    }
-
-    public WorldTile GetWorldTileByGrid(int x, int y){
-        WorldTile wt = nodes[x, y].GetComponent<WorldTile>();
         return wt;
     }
 

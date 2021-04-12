@@ -31,15 +31,16 @@ public class MapGenerator : MonoBehaviour {
     [Range(0,20)]
     public int startPointRadius=5;
     
-    public string[] riverDirection = {"north", "south"};
-    [Range(1,5)]
-    public int riverWidth = 3; // must be odd number
+    // RIVER GENERATION HELPER VARIABLES
+    // public string[] riverDirection = {"north", "south"};
+    // [Range(1,5)]
+    // public int riverWidth = 3; // must be odd number
 
-    public Pathfinding pf; // to access pathfinding functions
-    public CreateGrid cg; // to access creategrid functions
+    // public Pathfinding pf; // to access pathfinding functions
+    // public CreateGrid cg; // to access creategrid functions
 
-    public GameObject gridNode;
-    public GameObject nodePrefab;
+    // public GameObject gridNode;
+    // public GameObject nodePrefab;
 
     float offsetX;
     float offsetY;
@@ -70,10 +71,6 @@ public class MapGenerator : MonoBehaviour {
                 }
             }
         }
-
-        cg = new CreateGrid();
-        cg.ConstructCreateGrid(map, baseLayer, obstacleLayer, gridNode, nodePrefab, -mapWidth, -mapHeight, mapWidth, mapHeight);
-        GenerateRiver();
     }
 
     Vector3Int TmapTransform(int x, int y){
@@ -101,124 +98,125 @@ public class MapGenerator : MonoBehaviour {
         return !obstacleLayer.HasTile(checkPoint);
     }
 
-    // to check if a point is reachable to different ends
-    bool ReachablePoint(int x, int y){
-        bool reachable = false;
-        string[] edges = {"north", "south", "east", "west"};
-        WorldTile currPos = cg.GetWorldTileByGrid(x, y);
-        WorldTile checkPos = null;
-        Vector3Int checkGrid = new Vector3Int();
-        List<WorldTile> path = null;
+    // RIVER GENERATION CODE
+    // // to check if a point is reachable to different ends
+    // bool ReachablePoint(int x, int y){
+    //     bool reachable = false;
+    //     string[] edges = {"north", "south", "east", "west"};
+    //     WorldTile currPos = cg.GetWorldTileByGrid(x, y);
+    //     WorldTile checkPos = null;
+    //     Vector3Int checkGrid = new Vector3Int();
+    //     List<WorldTile> path = null;
 
-        int pass = 2;
-        int count = 0;
+    //     int pass = 2;
+    //     int count = 0;
 
-        // check north
-        foreach (string edge in edges){
-            checkGrid = GetRandomWalkableEdge(edge);
-            checkPos = cg.GetWorldTileByGrid(checkGrid.x, checkGrid.y);
-            path = pf.FindPath(currPos, checkPos);
-            if (path.Count > 0){
-                count++;
-            }
-        }
+    //     // check north
+    //     foreach (string edge in edges){
+    //         checkGrid = GetRandomWalkableEdge(edge);
+    //         checkPos = cg.GetWorldTileByGrid(checkGrid.x, checkGrid.y);
+    //         path = pf.FindPath(currPos, checkPos);
+    //         if (path.Count > 0){
+    //             count++;
+    //         }
+    //     }
 
-        if (count >= pass){
-            reachable = true;
-        }
+    //     if (count >= pass){
+    //         reachable = true;
+    //     }
 
-        return reachable;
-    }
+    //     return reachable;
+    // }
 
-    Vector3Int GetRandomWalkableEdge(string edge){
+    // Vector3Int GetRandomWalkableEdge(string edge){
 
-        bool walkable = false;
-        Vector3Int checkPoint = new Vector3Int();
+    //     bool walkable = false;
+    //     Vector3Int checkPoint = new Vector3Int();
         
-        while(!walkable){
-            checkPoint = GetEdgeValue(edge);
-            if (ObstacleFree(checkPoint)){
-                walkable = true;
-            }
-        }
+    //     while(!walkable){
+    //         checkPoint = GetEdgeValue(edge);
+    //         if (ObstacleFree(checkPoint)){
+    //             walkable = true;
+    //         }
+    //     }
 
-        return checkPoint;
-    }
+    //     return checkPoint;
+    // }
 
-    // to check if a point is returning high perlin noise value
-    // hence the point can be used to put water tiles
-    bool WaterAppropriate(int x, int y){
-        bool pass = false;
-        float xCoord = -(float)x/mapWidth * scale + offsetX;
-        float yCoord = -(float)y/mapHeight * scale + offsetY;
-        float sample = Mathf.PerlinNoise(xCoord, yCoord); // value would be between 0 and 1 inclusive
+    // // to check if a point is returning high perlin noise value
+    // // hence the point can be used to put water tiles
+    // bool WaterAppropriate(int x, int y){
+    //     bool pass = false;
+    //     float xCoord = -(float)x/mapWidth * scale + offsetX;
+    //     float yCoord = -(float)y/mapHeight * scale + offsetY;
+    //     float sample = Mathf.PerlinNoise(xCoord, yCoord); // value would be between 0 and 1 inclusive
 
-        if (sample > 0.6f && sample <= 1f){
-            pass = true;
-        }
-        return pass;
-    }
+    //     if (sample > 0.6f && sample <= 1f){
+    //         pass = true;
+    //     }
+    //     return pass;
+    // }
 
-    void GenerateRiver(){
+    // void GenerateRiver(){
 
-        bool linkable = false;
-        Vector3Int startPos = new Vector3Int();
-        Vector3Int endPos = new Vector3Int();
-        List<WorldTile> path = null;
+    //     bool linkable = false;
+    //     Vector3Int startPos = new Vector3Int();
+    //     Vector3Int endPos = new Vector3Int();
+    //     List<WorldTile> path = null;
 
-        while(!linkable){
-            startPos = GetRiverEndpoint(0);
-            endPos = GetRiverEndpoint(1);
+    //     while(!linkable){
+    //         startPos = GetRiverEndpoint(0);
+    //         endPos = GetRiverEndpoint(1);
 
-            WorldTile start = cg.GetWorldTileByGrid(startPos.x, startPos.y);
-            WorldTile end = cg.GetWorldTileByGrid(endPos.x, endPos.y);
+    //         WorldTile start = cg.GetWorldTileByGrid(startPos.x, startPos.y);
+    //         WorldTile end = cg.GetWorldTileByGrid(endPos.x, endPos.y);
 
-            path = pf.FindPath(start, end);
+    //         path = pf.FindPath(start, end);
 
-            if (path.Count > 0){
-                linkable = true;
-            }
-        }
+    //         if (path.Count > 0){
+    //             linkable = true;
+    //         }
+    //     }
 
-        foreach(WorldTile tile in path){
-            obstacleLayer.SetTile(TmapTransform(tile.getGridX(), tile.getGridY()), water);
-        }
+    //     foreach(WorldTile tile in path){
+    //         obstacleLayer.SetTile(TmapTransform(tile.getGridX(), tile.getGridY()), water);
+    //     }
 
-    }
+    // }
 
-    // RIVER HELPER METHODS
-    Vector3Int GetRiverEndpoint(int i){
-        // i = 0 means get start pos
-        // i = 1 means get end pos
-        Vector3Int pos = new Vector3Int();
-        bool reachable = false;
+    // // RIVER HELPER METHODS
+    // Vector3Int GetRiverEndpoint(int i){
+    //     // i = 0 means get start pos
+    //     // i = 1 means get end pos
+    //     Vector3Int pos = new Vector3Int();
+    //     bool reachable = false;
         
-        while(!reachable){
-            pos = GetRandomWalkableEdge(riverDirection[i]);
+    //     while(!reachable){
+    //         pos = GetRandomWalkableEdge(riverDirection[i]);
 
-            if(ReachablePoint(pos.x, pos.y)){
-                reachable = true;
-            }
-        }
+    //         if(ReachablePoint(pos.x, pos.y)){
+    //             reachable = true;
+    //         }
+    //     }
         
-        return pos;
-    }
+    //     return pos;
+    // }
 
-    Vector3Int GetEdgeValue(string edge){
-        Vector3Int edgeValue = new Vector3Int(0,0,0);
-        if (edge == "north"){
-            edgeValue.x = Random.Range(riverWidth, mapHeight-1);
-            edgeValue.y = 0;
-        } else if (edge == "south"){
-            edgeValue.x = Random.Range(riverWidth, mapHeight-1);
-            edgeValue.y = mapWidth-1;
-        } else if (edge == "east"){
-            edgeValue.x = 0;
-            edgeValue.y = Random.Range(riverWidth, mapWidth-1);
-        } else if (edge == "west"){
-            edgeValue.x = mapHeight-1;
-            edgeValue.y = Random.Range(riverWidth, mapWidth-1);
-        }
-        return edgeValue;
-    }
+    // Vector3Int GetEdgeValue(string edge){
+    //     Vector3Int edgeValue = new Vector3Int(0,0,0);
+    //     if (edge == "north"){
+    //         edgeValue.x = Random.Range(riverWidth, mapHeight-1);
+    //         edgeValue.y = 0;
+    //     } else if (edge == "south"){
+    //         edgeValue.x = Random.Range(riverWidth, mapHeight-1);
+    //         edgeValue.y = mapWidth-1;
+    //     } else if (edge == "east"){
+    //         edgeValue.x = 0;
+    //         edgeValue.y = Random.Range(riverWidth, mapWidth-1);
+    //     } else if (edge == "west"){
+    //         edgeValue.x = mapHeight-1;
+    //         edgeValue.y = Random.Range(riverWidth, mapWidth-1);
+    //     }
+    //     return edgeValue;
+    // }
 }
