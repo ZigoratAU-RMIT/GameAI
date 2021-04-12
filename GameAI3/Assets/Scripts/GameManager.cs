@@ -29,9 +29,8 @@ public class GameManager : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
-        if(timeRemaining <= 0 || dwarvesRemaining <= 0){
+        if(timeRemaining <= 0 || dwarvesRemaining <= 0)
             GameOver();
-        }
 
         if(Input.GetKeyDown(KeyCode.Escape)){
             isPaused = !isPaused;
