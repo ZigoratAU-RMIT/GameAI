@@ -2767,7 +2767,7 @@ MonoBehaviour:
   dwarfNum: 15
   goblin: {fileID: 2616884030473087691, guid: 842af6c43ed347443b1268ba3618a707, type: 3}
   goblinNum: 5
-  gridNode: {fileID: 644320179408593104, guid: 5db7669cf6773e243a505b5e4ac0a2b9, type: 3}
+  gridNode: {fileID: 1857477036}
   nodePrefab: {fileID: 644320179408593104, guid: 5db7669cf6773e243a505b5e4ac0a2b9,
     type: 3}
   scanStartX: -1000
