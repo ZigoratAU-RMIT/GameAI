@@ -24,7 +24,7 @@ public class Player : MonoBehaviour{
     void Update(){
         if(Input.GetButtonDown("Fire1")){
             //Checking to see if input is valid
-            WorldTile checkTile = pf.cg.GetWorldTileByCellPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            WorldTile checkTile = pf.map.GetWorldTileByCellPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
             if(checkTile == null)
                 return;
 

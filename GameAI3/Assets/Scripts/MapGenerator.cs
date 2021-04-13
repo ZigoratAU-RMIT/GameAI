@@ -76,6 +76,8 @@ public class MapGenerator : MonoBehaviour {
                             obstacleLayer.SetTile(TmapTransform(x, y), rock);
                         } else if (sample > 0.2f && sample <= 0.4f){ //|| sample > 0.65f && sample <= 0.7f  ){
                             obstacleLayer.SetTile(TmapTransform(x, y), tree);
+                        } else if (sample > 0.8f && sample <= 1f){
+                            obstacleLayer.SetTile(TmapTransform(x, y), water);
                         }
                     }
                 }

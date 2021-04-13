@@ -19,15 +19,15 @@ public class Pathfinding : MonoBehaviour{
         - Weird behaviours where the entity can get stuck
     *************/
 
-    public CreateGrid cg; //So we can access grid functions
+    public Map map; //So we can access grid functions
 
     Vector3 lastDirection = Vector3.zero;
     List<WorldTile> reachedPathTiles = new List<WorldTile>();
 
     //wrapper function to transform world position values to grid
     public List<WorldTile> FindPathFromWorldPos(Vector3 startPos, Vector3 endPos){
-        WorldTile startNode = cg.GetWorldTileByCellPosition(startPos);
-        WorldTile targetNode = cg.GetWorldTileByCellPosition(endPos);
+        WorldTile startNode = map.GetWorldTileByCellPosition(startPos);
+        WorldTile targetNode = map.GetWorldTileByCellPosition(endPos);
         List<WorldTile> path = FindPath(startNode, targetNode);
         if (path.Count == 0){
             path.Add(startNode);

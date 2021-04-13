@@ -316,7 +316,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &126734726
 Rigidbody2D:
@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b36ae83f923e747b25431af49bf4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cg: {fileID: 260628792}
+  map: {fileID: 0}
 --- !u!1 &185480464
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,89 +508,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 249085952}
   m_CullTransparentMesh: 0
---- !u!1 &260628791
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 260628794}
-  - component: {fileID: 260628793}
-  - component: {fileID: 260628792}
-  m_Layer: 0
-  m_Name: GridManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &260628792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 260628791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07a0f91db086e2e4dba81ac859586a92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridBase: {fileID: 1889338714}
-  floor: {fileID: 1607701656}
-  obstacleLayer: {fileID: 781357466}
-  gridNode: {fileID: 1857477036}
-  nodePrefab: {fileID: 644320179408593104, guid: 5db7669cf6773e243a505b5e4ac0a2b9,
-    type: 3}
-  scanStartX: -100
-  scanStartY: -100
-  scanFinishX: 100
-  scanFinishY: 100
-  gridSizeX: 0
-  gridSizeY: 0
---- !u!114 &260628793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 260628791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad0f114046aab494e9e80c7f2d5c6940, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapWidth: 100
-  mapHeight: 100
-  map: {fileID: 1889338714}
-  baseLayer: {fileID: 1607701656}
-  obstacleLayer: {fileID: 781357466}
-  grass: {fileID: 11400000, guid: 3bd58c43100742d47b1cbf600d5fb459, type: 2}
-  water: {fileID: 11400000, guid: da4ce10e3d3ac7243b5f6f0ff5e0819c, type: 2}
-  scale: 10
-  tree: {fileID: 11400000, guid: 605a229866c6d774382022c43a86a579, type: 2}
-  rock: {fileID: 11400000, guid: 61ee011fbab39df4d9de9424673520e6, type: 2}
-  startPointRadius: 5
-  dwarf: {fileID: 0}
-  dwarfNum: 15
-  goblin: {fileID: 0}
-  goblinNum: 5
---- !u!4 &260628794
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 260628791}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &369560259
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,7 +573,7 @@ Transform:
   m_Children:
   - {fileID: 1977092256}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &525590708
 GameObject:
@@ -787,7 +704,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &610683843
 GameObject:
@@ -1056,7 +973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b36ae83f923e747b25431af49bf4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cg: {fileID: 260628792}
+  map: {fileID: 0}
 --- !u!50 &716969223
 Rigidbody2D:
   serializedVersion: 4
@@ -1174,7 +1091,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &777282395
 GameObject:
@@ -1274,7 +1191,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &777282399
 Rigidbody2D:
@@ -1558,7 +1475,12 @@ PrefabInstance:
         type: 3}
       propertyPath: cg
       value: 
-      objectReference: {fileID: 260628792}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908151727063883631, guid: 6290110f27cdd0e4a928de953692753f,
+        type: 3}
+      propertyPath: map
+      value: 
+      objectReference: {fileID: 1889338716}
     - target: {fileID: 3908151728394493239, guid: 6290110f27cdd0e4a928de953692753f,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1943,7 +1865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b36ae83f923e747b25431af49bf4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cg: {fileID: 260628792}
+  map: {fileID: 0}
 --- !u!50 &1607646346
 Rigidbody2D:
   serializedVersion: 4
@@ -2061,7 +1983,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1607701653
 GameObject:
@@ -2377,7 +2299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b36ae83f923e747b25431af49bf4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cg: {fileID: 260628792}
+  map: {fileID: 0}
 --- !u!50 &1742073229
 Rigidbody2D:
   serializedVersion: 4
@@ -2495,7 +2417,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1778681954
 GameObject:
@@ -2591,7 +2513,7 @@ RectTransform:
   - {fileID: 2072981435}
   - {fileID: 525590709}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2662,7 +2584,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1857477036
 GameObject:
@@ -2674,7 +2596,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1857477037}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Grid Node
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2692,7 +2614,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1879787775
 GameObject:
@@ -2782,6 +2704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1889338715}
   - component: {fileID: 1889338714}
+  - component: {fileID: 1889338716}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -2815,8 +2738,44 @@ Transform:
   - {fileID: 1607701654}
   - {fileID: 781357463}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1889338716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889338713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17dd0d803763f4569951cd73920bfa5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapWidth: 100
+  mapHeight: 100
+  map: {fileID: 1889338714}
+  baseLayer: {fileID: 1607701656}
+  obstacleLayer: {fileID: 781357466}
+  grass: {fileID: 11400000, guid: dc9a67b5f3b944a3789061c494594f07, type: 2}
+  water: {fileID: 11400000, guid: 00aad156012df4653b9b1e8a217a0269, type: 2}
+  scale: 15
+  tree: {fileID: 11400000, guid: 15e26127cee0e47159e6aa04bb385d30, type: 2}
+  rock: {fileID: 11400000, guid: bb6ce144b668e4031bd0bc373a949748, type: 2}
+  startPointRadius: 5
+  dwarf: {fileID: 2762469978223935859, guid: 1340aaa6d664e9647852de73d5762622, type: 3}
+  dwarfNum: 15
+  goblin: {fileID: 2616884030473087691, guid: 842af6c43ed347443b1268ba3618a707, type: 3}
+  goblinNum: 5
+  gridNode: {fileID: 644320179408593104, guid: 5db7669cf6773e243a505b5e4ac0a2b9, type: 3}
+  nodePrefab: {fileID: 644320179408593104, guid: 5db7669cf6773e243a505b5e4ac0a2b9,
+    type: 3}
+  scanStartX: -1000
+  scanStartY: -1000
+  scanFinishX: 1000
+  scanFinishY: 1000
+  gridSizeX: 0
+  gridSizeY: 0
 --- !u!1 &1977092255
 GameObject:
   m_ObjectHideFlags: 3
@@ -3094,7 +3053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b36ae83f923e747b25431af49bf4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cg: {fileID: 260628792}
+  map: {fileID: 0}
 --- !u!50 &2080093672
 Rigidbody2D:
   serializedVersion: 4
@@ -3212,5 +3171,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
