@@ -13,7 +13,6 @@ public class Player : MonoBehaviour{
 
     private Rigidbody2D body;
     public float speed = 50;
-    public float rotationSpeed;
 
     private int index = 0;
     private bool movementDone = true;

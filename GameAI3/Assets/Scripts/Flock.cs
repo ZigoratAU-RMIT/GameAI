@@ -54,7 +54,7 @@ public class Flock : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         foreach (FlockAgent agent in agents)
         {
