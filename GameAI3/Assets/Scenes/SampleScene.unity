@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 23527194}
   - component: {fileID: 23527193}
   - component: {fileID: 23527195}
+  - component: {fileID: 23527196}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -203,6 +204,23 @@ MonoBehaviour:
   scanFinishY: 1000
   gridSizeX: 0
   gridSizeY: 0
+  riverDirection:
+  - north
+  - south
+  riverWidth: 3
+--- !u!114 &23527196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23527192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b36ae83f923e747b25431af49bf4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: {fileID: 23527195}
 --- !u!1 &148819999 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3908151728394493387, guid: 6290110f27cdd0e4a928de953692753f,
@@ -491,18 +509,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1850030806}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1323280936 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3908151727063883631, guid: 6290110f27cdd0e4a928de953692753f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1850030806}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1323280935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2b36ae83f923e747b25431af49bf4bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1323280940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,7 +521,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd583ca519b226d4b985bfc8535f6cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pf: {fileID: 1323280936}
   speed: 5
 --- !u!1 &1394942987
 GameObject:

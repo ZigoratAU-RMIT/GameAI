@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour{
-    public Pathfinding pf;
     List<WorldTile> movementPoints = new List<WorldTile>();
     List<WorldTile> path = new List<WorldTile>(); 
     
@@ -17,8 +16,11 @@ public class Player : MonoBehaviour{
     private int index = 0;
     private bool movementDone = true;
 
+    private Pathfinding pf;
+
     void Start(){
         body = GetComponent<Rigidbody2D>();
+        pf = GetComponent<Pathfinding>();
     }
 
     void Update(){
