@@ -12,10 +12,13 @@ public class FlockAgent : MonoBehaviour
     Collider2D agentCollider;
     public Collider2D AgentCollider { get { return agentCollider; } }
 
+    public float[] weights= { 1, 1, 1, 1, 10 };
+
     // Start is called before the first frame update
     void Start()
     {
         agentCollider = GetComponent<Collider2D>();
+        
     }
 
     public void Initialize(Flock flock)

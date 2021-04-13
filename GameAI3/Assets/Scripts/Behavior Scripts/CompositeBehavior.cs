@@ -12,7 +12,7 @@ public class CompositeBehavior : FlockBehavior
     public override Vector2 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {
         //handle data mismatch
-        if (weights.Length != behaviors.Length)
+        if (agent.weights.Length != behaviors.Length)
         {
             Debug.LogError("Data mismatch in " + name, this);
             return Vector2.zero;
@@ -24,14 +24,14 @@ public class CompositeBehavior : FlockBehavior
         //iterate through behaviors
         for (int i = 0; i < behaviors.Length; i++)
         {
-            Vector2 partialMove = behaviors[i].CalculateMove(agent, context, flock) * weights[i];
+            Vector2 partialMove = behaviors[i].CalculateMove(agent, context, flock) * agent.weights[i];
 
             if (partialMove != Vector2.zero)
             {
-                if (partialMove.sqrMagnitude > weights[i] * weights[i])
+                if (partialMove.sqrMagnitude > agent.weights[i] * agent.weights[i])
                 {
                     partialMove.Normalize();
-                    partialMove *= weights[i];
+                    partialMove *= agent.weights[i];
                 }
 
                 move += partialMove;
