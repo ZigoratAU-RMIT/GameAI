@@ -30,6 +30,14 @@ public class RedEnemyPursuitBehaviour : MonoBehaviour
     void moveEnemy(Vector2 direction)
     {
         Vector3 newPosition = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
-        rb.MovePosition(newPosition);
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance < 1.6)
+        {
+            rb.velocity = new Vector2(0, 0);
+        }
+        else
+        {
+            rb.MovePosition(newPosition);
+        }
     }
 }
