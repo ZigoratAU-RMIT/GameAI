@@ -208,6 +208,7 @@ MonoBehaviour:
   - north
   - south
   riverWidth: 3
+  riverBranch: 1
 --- !u!114 &23527196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -736,6 +737,11 @@ PrefabInstance:
     - target: {fileID: 3908151727063883631, guid: 6290110f27cdd0e4a928de953692753f,
         type: 3}
       propertyPath: cg
+      value: 
+      objectReference: {fileID: 23527195}
+    - target: {fileID: 3908151727063883631, guid: 6290110f27cdd0e4a928de953692753f,
+        type: 3}
+      propertyPath: map
       value: 
       objectReference: {fileID: 23527195}
     - target: {fileID: 3908151728394493239, guid: 6290110f27cdd0e4a928de953692753f,

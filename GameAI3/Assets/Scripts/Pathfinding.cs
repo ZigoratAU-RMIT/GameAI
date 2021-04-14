@@ -32,6 +32,7 @@ public class Pathfinding : MonoBehaviour{
         if (path.Count == 0){
             path.Add(startNode);
         }
+        path.Reverse();
         return path;
     }
 
@@ -100,8 +101,6 @@ public class Pathfinding : MonoBehaviour{
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }
-
-        path.Reverse();
         return path;
     }
 
