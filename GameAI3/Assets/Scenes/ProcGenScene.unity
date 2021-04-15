@@ -406,9 +406,9 @@ MonoBehaviour:
   gridSizeY: 0
   riverDirection:
   - north
-  - south
+  - east
   riverWidth: 3
-  riverBranch: 1
+  riverBranch: 5
 --- !u!114 &228990185
 MonoBehaviour:
   m_ObjectHideFlags: 0

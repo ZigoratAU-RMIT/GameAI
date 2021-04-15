@@ -49,12 +49,13 @@ public class Map : MonoBehaviour
 
     /////// RIVER GENERATION
 
-    public string[] riverDirection = {"north", "south"};
+    public List<string> riverDirection = new List<string>(){"north", "south"};
     List<string> edges = new List<string>(){"north", "south", "east", "west"};
-    [Range(1,5)]
+    [Range(2,5)]
     public int riverWidth = 3;
-    [Range(1,3)]
+    [Range(1,5)]
     public int riverBranch = 1;
+    List<WorldTile> riverPath;
 
     Pathfinding pf; // to access pathfinding functions
 
@@ -66,6 +67,10 @@ public class Map : MonoBehaviour
         GenerateGrid();
 
         GenerateRiver();
+
+        GenerateBranch();
+
+        GenerateBorder();
 
         // GenerateNPC();
     }
@@ -190,27 +195,60 @@ public class Map : MonoBehaviour
 
     void GenerateRiver(){
         // get random walkable edge from player starting point
-        Vector3Int playerPos = TmapTransform(mapWidth/2, mapHeight/2);
         List<Vector3Int> randomMapEdges = new List<Vector3Int>();
-        foreach(string edge in edges){
+        foreach(string edge in riverDirection){
             Vector3Int edgePoint = GetMapEdge(edge);
             randomMapEdges.Add(edgePoint);
         }
 
         // pick starting position and end position from walkable edge
-        Vector3Int startPos = GetRiverEndpoint(riverDirection[0], randomMapEdges);
-        Vector3Int endPos = GetRiverEndpoint(riverDirection[1], randomMapEdges);
-        List<WorldTile> path = null;
+        Vector3Int startPos = randomMapEdges[0];
+        Vector3Int endPos = randomMapEdges[1];
 
         WorldTile start = GetWorldTileByGrid(startPos.x, startPos.y);
         WorldTile end = GetWorldTileByGrid(endPos.x, endPos.y);
 
-        path = pf.FindPath(start, end);
+        riverPath = pf.FindPath(start, end);
 
-        if (path.Count > 0){
-            path.Add(start);
+        riverPath.Add(start);
+        foreach(WorldTile tile in riverPath){
+            for(int i=0;i<riverWidth;i++){
+                int offset = i - (int)Mathf.Ceil((float)riverWidth/2.0f);
+                if (tile.gridX+offset > 0 && tile.gridX+offset < mapWidth){
+                    if(WorldTileObstacleFree(tile.gridX+offset, tile.gridY)){
+                        baseLayer.SetTile(WorldTileTmapTransform(tile.gridX+offset, tile.gridY), water);
+                        UpdateGrid(tile.gridX+offset, tile.gridY, 2, true); // special cost = 2
+                    }
+                }
+            }
+        }
+    }
+    
+    void GenerateBranch(){
+        List<Vector3Int> randomMapEdges = new List<Vector3Int>();
+        for(int i=0; i < riverBranch;i++){
+            int direction = Random.Range(0,4);
+            if(!riverDirection.Contains(edges[direction])){ // branch can only go to other direction
+                Vector3Int edgePoint = GetMapEdge(edges[direction]);
+                randomMapEdges.Add(edgePoint);
+            } else {
+                i--;
+            }
+        }
+
+        foreach(Vector3Int edge in randomMapEdges){
+            // get a random river point
+            int riverOffset = 10; // we only want to make branch from the middle of the main river
+            int index = Random.Range(riverOffset, riverPath.Count-riverOffset);
+            WorldTile start = riverPath[index];
+            WorldTile end = GetWorldTileByGrid(edge.x, edge.y);
+            int branchWidth = riverWidth-1; // branch should be less wide
+
+            List<WorldTile> path = pf.FindPath(start, end);
+            path.Add(end);
+
             foreach(WorldTile tile in path){
-                for(int i=0;i<riverWidth;i++){
+                for(int i=0;i<branchWidth;i++){
                     int offset = i - (int)Mathf.Ceil((float)riverWidth/2.0f);
                     if (tile.gridX+offset > 0 && tile.gridX+offset < mapWidth){
                         if(WorldTileObstacleFree(tile.gridX+offset, tile.gridY)){
@@ -220,6 +258,17 @@ public class Map : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    void GenerateBorder(){
+        for(int y=0; y < mapHeight; y++){
+            obstacleLayer.SetTile(TmapTransform(0, y), tree);
+            obstacleLayer.SetTile(TmapTransform(mapWidth-1, y), tree);
+        }
+        for(int x=0; x < mapWidth; x++){
+            obstacleLayer.SetTile(TmapTransform(x, 0), tree);
+            obstacleLayer.SetTile(TmapTransform(x, mapHeight-1), tree);
         }
     }
 
@@ -269,6 +318,16 @@ public class Map : MonoBehaviour
         return inRadius;
     }
 
+    bool IsMapEdge(int x, int y){
+        bool edge = false;
+
+        if (x == 0 || x == mapWidth-1 || y == 0 || y == mapHeight-1){
+            edge = true;
+        }
+
+        return edge;
+    }
+
     // to check if a point is point is reachable by player
     bool ReachablePoint(int x, int y){
         bool reachable = false;
@@ -303,7 +362,9 @@ public class Map : MonoBehaviour
         float sample = Mathf.PerlinNoise(xCoord, yCoord); // value would be between 0 and 1 inclusive
 
         if (sample > 0.5f && sample <= 0.7f){
-            pass = true;
+            if (baseLayer.GetTile<Tile>(TmapTransform(x,y)) == grass){
+                pass = true;  
+            }
         }
         return pass;
     }
@@ -347,15 +408,7 @@ public class Map : MonoBehaviour
         return checkPoint;
     }
 
-    Vector3Int GetRiverEndpoint(string edge, List<Vector3Int> points){
-        // north = 0
-        // south = 1
-        // east = 2
-        // west = 3
-        Vector3Int checkPoint = points[edges.FindIndex(a => a.Contains(edge))];
-
-        return checkPoint;
-    }
+    
 
     // HELPER METHODS: NPC generation
     Vector3Int GetRandomPoint(){
