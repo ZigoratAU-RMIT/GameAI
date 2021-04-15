@@ -11,12 +11,6 @@ public class Pathfinding : MonoBehaviour{
     
     - Other references from:
         http://www.jgallant.com/nodal-pathfinding-in-unity-2d-with-a-in-non-grid-based-games/
-
-
-    Issues:
-        - No checking for if the found path is invalid resulting in null exeption error being thrown until it can make a path
-        - Pathfinding isn't independant to movement right now
-        - Weird behaviours where the entity can get stuck
     *************/
 
     public Map map; //So we can access grid functions

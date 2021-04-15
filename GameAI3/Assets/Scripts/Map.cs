@@ -171,7 +171,7 @@ public class Map : MonoBehaviour
                     wt.myNeighbours = getNeighbours(i, j, gridBoundX, gridBoundY);
                     foreach(WorldTile neighbours in wt.myNeighbours){
                         if(!neighbours.walkable)
-                            wt.specialCost = 5;
+                            wt.specialCost = 10;
                     }
                 }
             }

@@ -5,10 +5,13 @@ using UnityEngine;
 public class Player : MonoBehaviour{
     List<WorldTile> movementPoints = new List<WorldTile>();
     List<WorldTile> path = new List<WorldTile>(); 
+    List<WorldTile> smoothedPath = new List<WorldTile>();
     
     Vector2 target;
     Vector2 desiredVelocity;
     Vector2 steering;
+
+    public LayerMask layer;
 
     private Rigidbody2D body;
     public float speed = 50;
@@ -47,14 +50,46 @@ public class Player : MonoBehaviour{
             //Add in last position
             movementPoints.Add(path[path.Count - 1]);
 
-            target = new Vector2(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f);
+
+            Vector2 startPos = new Vector2(movementPoints[0].cellX + 0.5f, movementPoints[0].cellY + 0.5f);
+            smoothedPath.Clear();
+            smoothedPath.Add(movementPoints[0]);
+            bool smoothing = true;
+            int currentTargetNode = 1; //starting at second point the path because the first is always valid
+            int HELP =0;
+            while(smoothing){
+                if(HELP > 100)
+                    smoothing = false;
+                for(int i = currentTargetNode; i < movementPoints.Count; i++){ 
+                    Vector2 targetPos = new Vector2(movementPoints[i].cellX + 0.5f, movementPoints[i].cellY + 0.5f);
+                    Vector2 targetDir = (targetPos - startPos).normalized;
+                    float targetDst = Vector2.Distance(targetPos, startPos); 
+                    //RaycastHit2D hit = Physics2D.Linecast(startPos, targetPos, layer);
+                    RaycastHit2D hit = Physics2D.BoxCast(startPos, new Vector2(0.75f,0.75f), 0, targetDir, targetDst, layer);
+                    //Debug.DrawLine(startPos, targetPos, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f), 10f);
+                    if(hit.collider != null){
+                        smoothedPath.Add(movementPoints[i - 1]);
+                        startPos = new Vector2(movementPoints[i - 1].cellX + 0.5f, movementPoints[i - 1].cellY + 0.5f);
+                        currentTargetNode = i - 1;
+                        Debug.DrawLine(startPos, targetPos, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f), 10f);
+                        continue;
+                    }
+                }
+                if(currentTargetNode >= movementPoints.Count)
+                    smoothing = false; 
+
+                HELP++; 
+            }
+            smoothedPath.Add(movementPoints[movementPoints.Count - 1]);
+            target = new Vector2(smoothedPath[index].cellX + 0.5f, smoothedPath[index].cellY + 0.5f);
         }
     }
 
     void FixedUpdate(){
         if(movementDone == true)
             return;
-
+        
+        /*
         if(body.velocity == Vector2.zero){
             Vector2 oldTarget = new Vector2(movementPoints[movementPoints.Count - 1].cellX, movementPoints[movementPoints.Count - 1].cellY);
             path = pf.FindPathFromWorldPos(transform.position, oldTarget);
@@ -70,6 +105,7 @@ public class Player : MonoBehaviour{
 
             target = new Vector2(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f);
         }
+        */
 
         desiredVelocity = target - (Vector2)transform.position;
         desiredVelocity = desiredVelocity.normalized * speed;
@@ -81,7 +117,7 @@ public class Player : MonoBehaviour{
         body.velocity = Vector2.ClampMagnitude(body.velocity + steering, speed);
         transform.up = body.velocity.normalized;
 
-        if(Vector3.Distance(transform.position, new Vector3(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f)) < 1f){
+        if(Vector3.Distance(transform.position, new Vector3(smoothedPath[index].cellX + 0.5f, smoothedPath[index].cellY + 0.5f)) < 1f){
             index++;
             if(index == movementPoints.Count){
                 movementDone = true;
@@ -89,7 +125,7 @@ public class Player : MonoBehaviour{
                 index = 0;
                 return;
             }
-            target = new Vector2(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f);
+            target = new Vector2(smoothedPath[index].cellX + 0.5f, smoothedPath[index].cellY + 0.5f);
         }
 
         Debug.DrawRay(transform.position, body.velocity.normalized * 2, Color.green);
@@ -98,8 +134,8 @@ public class Player : MonoBehaviour{
             Debug.DrawLine(new Vector2(movementPoints[i].cellX + 0.5f, movementPoints[i].cellY + 0.5f), new Vector2(movementPoints[i + 1].cellX + 0.5f, movementPoints[i + 1].cellY + 0.5f));
         }
         Debug.DrawLine(transform.position, target, Color.blue);
-        for(int i = 0; i < path.Count - 1; i++){
-            Debug.DrawLine(new Vector2(path[i].cellX + 0.5f, path[i].cellY + 0.5f), new Vector2(path[i + 1].cellX + 0.5f, path[i + 1].cellY + 0.5f), Color.red);
+        for(int i = 0; i < smoothedPath.Count - 1; i++){
+            Debug.DrawLine(new Vector2(smoothedPath[i].cellX + 0.5f, smoothedPath[i].cellY + 0.5f), new Vector2(smoothedPath[i + 1].cellX + 0.5f, smoothedPath[i + 1].cellY + 0.5f), Color.red);
         }
     }
 }
