@@ -119,7 +119,7 @@ public class Player : MonoBehaviour{
 
         if(Vector3.Distance(transform.position, new Vector3(smoothedPath[index].cellX + 0.5f, smoothedPath[index].cellY + 0.5f)) < 1f){
             index++;
-            if(index == movementPoints.Count){
+            if(index == smoothedPath.Count){
                 movementDone = true;
                 body.velocity = Vector2.zero;
                 index = 0;
