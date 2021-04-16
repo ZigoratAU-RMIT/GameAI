@@ -102,7 +102,6 @@ public class Dwarf : MonoBehaviour
         if (col.gameObject.GetComponent<Goblin>() != null)
         {
             if(state != (int)States.follow){
-                System.Threading.Thread.Sleep(500);
                 flockAgent.RemoveFromFlock();
                 Destroy(this.gameObject);
             }
