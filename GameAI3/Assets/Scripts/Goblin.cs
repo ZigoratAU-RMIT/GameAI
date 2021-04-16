@@ -14,6 +14,9 @@ public class Goblin : MonoBehaviour
     }
 
     private GameManager gm;
+    public Wander wander;
+    public Seek seek;
+    public FleeBehavior flee;
 
     //Pathfinding
     public Pathfinding pf;
@@ -27,14 +30,6 @@ public class Goblin : MonoBehaviour
     private Renderer rend;
     private Vector2 steering;
 
-    //Wander
-    private Vector2 circleCentre;
-    private Vector2 displacement;
-    private Vector2 wanderForce;
-
-
-    //Seek & Flee
-    private Vector2 desiredVelocity;
     // float distance;
     float dstToTarget;
     private int recheck = 45;
@@ -63,24 +58,6 @@ public class Goblin : MonoBehaviour
         switch (state)
         {
             case (int)States.wander:
-                //Movement
-                circleCentre = body.velocity;
-                circleCentre = circleCentre.normalized * 2;
-
-                displacement = new Vector2(0, -1);
-                displacement = displacement.normalized * 2;
-
-                int heading = Random.Range(0, 360);
-
-                displacement.x = Mathf.Cos(heading);
-                displacement.y = Mathf.Sin(heading);
-
-                wanderForce = circleCentre + displacement;
-
-                steering = wanderForce - body.velocity;
-                steering = Vector2.ClampMagnitude(steering, speed);
-                steering /= 15f;
-
                 //Finding target
                 visibleTargets.Clear();
                 Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, 10, targetMask);
@@ -105,19 +82,18 @@ public class Goblin : MonoBehaviour
                     }
                 }
 
-                Debug.DrawRay(transform.position, displacement, Color.green);
-                Debug.DrawRay(transform.position, circleCentre, Color.magenta);
+                //Movement
+                steering = wander.Movement(body.velocity, speed);
+
                 break;
             case (int)States.seek:
 
-                if (Vector2.Distance(transform.position, targetPosition) < 3f)
-                {
+                if (Vector2.Distance(transform.position, targetPosition) < 3f){
                     state = (int)States.chase;
                     return;
                 }
 
-                if (body.velocity == Vector2.zero)
-                {
+                if (body.velocity == Vector2.zero){
                     Vector2 oldTarget = new Vector2(movementPoints[movementPoints.Count - 1].cellX, movementPoints[movementPoints.Count - 1].cellY);
                     movementPoints.Clear();
                     index = 0;
@@ -126,8 +102,7 @@ public class Goblin : MonoBehaviour
                     targetPosition = new Vector2(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f);
                 }
 
-                if (recheck <= 0)
-                {
+                if (recheck <= 0){
                     recheck = 45;
                     movementPoints.Clear();
                     index = 0;
@@ -135,12 +110,8 @@ public class Goblin : MonoBehaviour
                     targetPosition = new Vector2(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f);
                 }
 
-                desiredVelocity = targetPosition - (Vector2)transform.position;
-                desiredVelocity = desiredVelocity.normalized * speed;
-
-                steering = desiredVelocity - body.velocity;
-                steering = Vector2.ClampMagnitude(steering, speed);
-                steering /= 15f;
+                //Movement
+                steering = seek.Movement(transform.position, targetPosition, body.velocity, speed);
 
                 recheck--;
 
@@ -159,12 +130,7 @@ public class Goblin : MonoBehaviour
 
                 break;
             case (int)States.chase:
-                desiredVelocity = (Vector2)target.transform.position - (Vector2)transform.position;
-                desiredVelocity = desiredVelocity.normalized * speed;
-
-                steering = desiredVelocity - body.velocity;
-                steering = Vector2.ClampMagnitude(steering, speed);
-                steering /= 15f;
+                steering = seek.Movement((Vector2)target.transform.position, transform.position, body.velocity, speed);
 
                 // distance = desiredVelocity.magnitude;
                 dstToTarget = Vector2.Distance(transform.position, target.transform.position);
@@ -172,22 +138,14 @@ public class Goblin : MonoBehaviour
 
                 break;
             case (int)States.flee:
-                desiredVelocity = -((Vector2)target.transform.position - (Vector2)transform.position);
-                // distance = desiredVelocity.magnitude;
-
-                desiredVelocity = desiredVelocity.normalized * speed;
-
-                steering = desiredVelocity - body.velocity;
-                steering = Vector2.ClampMagnitude(steering, speed);
-                steering /= 15f;
-
-                // distance = desiredVelocity.magnitude;
                 dstToTarget = Vector2.Distance(transform.position, target.transform.position);
-                //print(dstToTarget);
                 if (dstToTarget > 5f)
                 {
                     state = (int)States.wander;
                 }
+
+                //Movement
+                steering = flee.calculateMove((Vector2)target.transform.position, transform.position, body, speed);
 
                 break;
             default:

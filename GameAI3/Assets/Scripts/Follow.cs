@@ -14,11 +14,11 @@ public class Follow : MonoBehaviour{
     }
 
     // Update is called once per frame
-    void FixedUpdate(){
-        if(Vector2.Distance(transform.position, player.position) < 2f){
-            body.velocity = Vector2.zero;
-            return;
-        }
+    public Vector2 Movement(){
+        //if(Vector2.Distance(transform.position, player.position) < 2f){
+        //    steering = Vector2.zero;
+        //    return steering;
+        //}
 
         Vector2 targetVelocity = player.velocity * -1;
         targetVelocity = targetVelocity.normalized * LEADER_BEHIND_DIST;
@@ -31,9 +31,9 @@ public class Follow : MonoBehaviour{
         steering = Vector2.ClampMagnitude(steering, 5);
         steering /= 15f;
          
-        body.velocity = Vector2.ClampMagnitude(body.velocity + steering, 5);
-        transform.up = body.velocity.normalized;
         Debug.DrawRay(transform.position, body.velocity.normalized * 2, Color.green);
         Debug.DrawLine(body.position, behind, Color.blue);
+
+        return steering;
     }
 }

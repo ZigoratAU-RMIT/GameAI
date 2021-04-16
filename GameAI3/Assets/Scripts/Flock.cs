@@ -36,21 +36,7 @@ public class Flock : MonoBehaviour
         squareMaxSpeed = maxSpeed * maxSpeed;
         squareNeighborRadius = neighborRadius * neighborRadius;
         squareAvoidanceRadius = squareNeighborRadius * avoidanceRadiusMultiplier * avoidanceRadiusMultiplier;
-
-        for (int i = 0; i < startingCount; i++)
-        {
-
-            FlockAgent newAgent = Instantiate(
-                agentPrefab,
-
-                new Vector3(Random.Range(-mapSizeX, mapSizeX), Random.Range(-mapSizeY, mapSizeY),0),
-                Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)),
-                transform
-                );
-            newAgent.name = "Agent " + i;
-            newAgent.Initialize(this);
-            agents.Add(newAgent);
-        }
+        
     }
 
     // Update is called once per frame
