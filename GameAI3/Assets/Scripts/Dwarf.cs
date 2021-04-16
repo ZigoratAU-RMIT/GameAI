@@ -107,11 +107,15 @@ public class Dwarf : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.name == "Player")
+        if (col.gameObject.GetComponent<Goblin>() != null)
         {
-            rend.material.color = Color.blue;
+            // rend.material.color = Color.blue;
             System.Threading.Thread.Sleep(500);
-            Destroy(rend.gameObject);
+            Destroy(this.gameObject);
+        }
+
+        if (col.gameObject.GetComponent<Player>() != null){
+            print("collided with player");
         }
     }
 }

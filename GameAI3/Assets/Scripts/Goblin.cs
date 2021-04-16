@@ -13,6 +13,8 @@ public class Goblin : MonoBehaviour
         flee
     }
 
+    private GameManager gm;
+
     //Pathfinding
     public Pathfinding pf;
     List<WorldTile> movementPoints = new List<WorldTile>();
@@ -53,6 +55,7 @@ public class Goblin : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         rend = GetComponent<Renderer>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void FixedUpdate()
@@ -166,10 +169,6 @@ public class Goblin : MonoBehaviour
                 // distance = desiredVelocity.magnitude;
                 dstToTarget = Vector2.Distance(transform.position, target.transform.position);
                 //print(dstToTarget);
-                if (dstToTarget < 1f)
-                {
-                    state = (int)States.flee;
-                }
 
                 break;
             case (int)States.flee:
@@ -215,15 +214,16 @@ public class Goblin : MonoBehaviour
         return movementPoints;
     }
 
-
-
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.name == "Player")
+        if (col.gameObject.GetComponent<Player>() != null)
         {
-            rend.material.color = Color.red;
-            System.Threading.Thread.Sleep(500);
-            Destroy(rend.gameObject);
+            state = (int)States.flee;
+        }
+        if (col.gameObject.GetComponent<Dwarf>() != null)
+        {
+            gm.AddGoblinScore();
+            state = (int)States.wander;
         }
     }
 }
