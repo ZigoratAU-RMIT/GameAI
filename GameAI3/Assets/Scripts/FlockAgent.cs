@@ -17,7 +17,7 @@ public class FlockAgent : MonoBehaviour
 
 
     // avoidance, alignment, steered cohesion, stay in radius, avoid obstacles
-    public float[] weights= { 1, 3, 4, 1, 1};
+    public float[] weights= { 1, 3, 4, 1, 5};
 
     // Start is called before the first frame update
     void Start()

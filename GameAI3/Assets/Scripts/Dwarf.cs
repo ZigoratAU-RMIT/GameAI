@@ -7,12 +7,12 @@ public class Dwarf : MonoBehaviour
     //Define states
     private enum States
     {
-        wander,
-        flee,
-        follow,
+        wander, //0
+        flee,   //1
+        follow, //2
     }
 
-    int state = (int)States.wander;
+    public int state = (int)States.wander;
     private int speed = 5;
 
     private Rigidbody2D body;
@@ -69,43 +69,56 @@ public class Dwarf : MonoBehaviour
                         state = (int)States.flee;
                     }
                 }
-
+                flockWeight = 1;
                 break;
             case (int)States.flee:
                 steering = flee.calculateMove((Vector2)target.transform.position, transform.position, body, speed);
+                flockWeight = 1;
                 break;
             case (int)States.follow:
                 if(Vector2.Distance(transform.position, target.transform.position) < 2f){
                     body.velocity = Vector2.zero;
                 }
+                follow.leader = target.GetComponent<Rigidbody2D>();
                 steering = follow.Movement();
+                flockWeight = 0.5f;
                 break;
             default:
                 state = (int)States.wander;
                 break;
         }
         body.velocity = Vector2.ClampMagnitude(body.velocity + steering, speed);
-        stateWeight = 1; // move later
-        flockWeight = 1;
+        stateWeight = 1;
         flockVelocity = flockAgent.GetFlockVelocity().normalized * flockWeight;
         stateVelocity = body.velocity.normalized * stateWeight;
         transform.up = flockVelocity + stateVelocity;
-        transform.position += (Vector3)flockAgent.GetFlockPosition();
+        if (flockWeight > 0){
+            transform.position += (Vector3)flockAgent.GetFlockPosition();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.GetComponent<Goblin>() != null)
         {
-            // rend.material.color = Color.blue;
-            System.Threading.Thread.Sleep(500);
-            flockAgent.RemoveFromFlock();
-            Destroy(this.gameObject);
+            if(state != (int)States.follow){
+                System.Threading.Thread.Sleep(500);
+                flockAgent.RemoveFromFlock();
+                Destroy(this.gameObject);
+            }
         }
 
         if (col.gameObject.GetComponent<Player>() != null){
-            target = col.gameObject;
-            state = (int)States.follow;
+            // target = col.gameObject;
+            if(!col.gameObject.GetComponent<Player>().followers.Contains(this)){
+                int followersCount = col.gameObject.GetComponent<Player>().followers.Count;
+                if(followersCount > 0){
+                    target = col.gameObject.GetComponent<Player>().followers[followersCount-1].gameObject;
+                } else if (followersCount == 0){
+                    target = col.gameObject.GetComponent<Player>().gameObject;
+                }
+                state = (int)States.follow;
+            }
         }
     }
 }
