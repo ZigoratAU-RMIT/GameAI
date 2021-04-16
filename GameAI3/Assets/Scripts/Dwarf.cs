@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dwarf : MonoBehaviour{
+public class Dwarf : MonoBehaviour
+{
     //Define states
-    private enum States{
+    private enum States
+    {
         wander,
         flee,
         follow,
@@ -26,18 +28,23 @@ public class Dwarf : MonoBehaviour{
 
     private GameObject target;
     public LayerMask targetMask;
+    private Renderer rend;
     public List<GameObject> visibleTargets = new List<GameObject>();
 
     public int viewAngle = 180;
 
     // Start is called before the first frame update
-    void Start(){
+    void Start()
+    {
         body = GetComponent<Rigidbody2D>();
+        rend = GetComponent<Renderer>();
     }
 
     // Update is called once per frame
-    void FixedUpdate(){
-        switch (state){
+    void FixedUpdate()
+    {
+        switch (state)
+        {
             case (int)States.wander:
                 //Movement
                 circleCentre = body.velocity;
@@ -61,10 +68,12 @@ public class Dwarf : MonoBehaviour{
                 visibleTargets.Clear();
                 Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, 10, targetMask);
 
-                for(int i = 0; i < targetsInViewRadius.Length; i++){
+                for (int i = 0; i < targetsInViewRadius.Length; i++)
+                {
                     GameObject target_ = targetsInViewRadius[i].gameObject;
                     Vector2 dirToTarget = (target_.transform.position - transform.position).normalized;
-                    if(Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2){
+                    if (Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2)
+                    {
                         float dstToTarget = Vector2.Distance(transform.position, target_.transform.position);
                         //If line draw form object to target is not interrupted by wall, add target to list of visible targets
                         //if(!Physics2D.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
@@ -94,5 +103,15 @@ public class Dwarf : MonoBehaviour{
         }
         body.velocity = Vector2.ClampMagnitude(body.velocity + steering, speed);
         transform.up = body.velocity.normalized;
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.collider.name == "Player")
+        {
+            rend.material.color = Color.blue;
+            System.Threading.Thread.Sleep(500);
+            Destroy(rend.gameObject);
+        }
     }
 }
