@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goblin : MonoBehaviour{
+public class Goblin : MonoBehaviour
+{
     //Define states
-    private enum States{
+    private enum States
+    {
         wander,
         seek,
         chase,
@@ -20,6 +22,7 @@ public class Goblin : MonoBehaviour{
     private int speed = 5;
 
     private Rigidbody2D body;
+    private Renderer rend;
     private Vector2 steering;
 
     //Wander
@@ -46,12 +49,16 @@ public class Goblin : MonoBehaviour{
 
     public int viewAngle = 180;
 
-    void Start(){
+    void Start()
+    {
         body = GetComponent<Rigidbody2D>();
+        rend = GetComponent<Renderer>();
     }
 
-    void FixedUpdate(){
-        switch(state){
+    void FixedUpdate()
+    {
+        switch (state)
+        {
             case (int)States.wander:
                 //Movement
                 circleCentre = body.velocity;
@@ -75,10 +82,12 @@ public class Goblin : MonoBehaviour{
                 visibleTargets.Clear();
                 Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, 10, targetMask);
 
-                for(int i = 0; i < targetsInViewRadius.Length; i++){
+                for (int i = 0; i < targetsInViewRadius.Length; i++)
+                {
                     GameObject target_ = targetsInViewRadius[i].gameObject;
                     Vector2 dirToTarget = (target_.transform.position - transform.position).normalized;
-                    if(Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2){
+                    if (Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2)
+                    {
                         dstToTarget = Vector2.Distance(transform.position, target_.transform.position);
                         //If line draw form object to target is not interrupted by wall, add target to list of visible targets
                         //if(!Physics2D.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
@@ -98,12 +107,14 @@ public class Goblin : MonoBehaviour{
                 break;
             case (int)States.seek:
 
-                if (Vector2.Distance(transform.position, targetPosition) < 3f) {
+                if (Vector2.Distance(transform.position, targetPosition) < 3f)
+                {
                     state = (int)States.chase;
                     return;
                 }
 
-                if (body.velocity == Vector2.zero) {
+                if (body.velocity == Vector2.zero)
+                {
                     Vector2 oldTarget = new Vector2(movementPoints[movementPoints.Count - 1].cellX, movementPoints[movementPoints.Count - 1].cellY);
                     movementPoints.Clear();
                     index = 0;
@@ -112,7 +123,8 @@ public class Goblin : MonoBehaviour{
                     targetPosition = new Vector2(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f);
                 }
 
-                if (recheck <= 0){
+                if (recheck <= 0)
+                {
                     recheck = 45;
                     movementPoints.Clear();
                     index = 0;
@@ -153,8 +165,9 @@ public class Goblin : MonoBehaviour{
 
                 // distance = desiredVelocity.magnitude;
                 dstToTarget = Vector2.Distance(transform.position, target.transform.position);
-                print(dstToTarget);
-                if(dstToTarget < 1f){
+                //print(dstToTarget);
+                if (dstToTarget < 1f)
+                {
                     state = (int)States.flee;
                 }
 
@@ -171,8 +184,9 @@ public class Goblin : MonoBehaviour{
 
                 // distance = desiredVelocity.magnitude;
                 dstToTarget = Vector2.Distance(transform.position, target.transform.position);
-                print(dstToTarget);
-                if(dstToTarget > 5f){
+                //print(dstToTarget);
+                if (dstToTarget > 5f)
+                {
                     state = (int)States.wander;
                 }
 
@@ -186,10 +200,12 @@ public class Goblin : MonoBehaviour{
         transform.up = body.velocity.normalized;
     }
 
-    private List<WorldTile> pathFind(Vector2 position, Vector2 target, Pathfinding pf){
+    private List<WorldTile> pathFind(Vector2 position, Vector2 target, Pathfinding pf)
+    {
         List<WorldTile> movementPoints = new List<WorldTile>();
         path = pf.FindPathFromWorldPos(position, target);
-        for (int i = 0; i < path.Count; i++) {
+        for (int i = 0; i < path.Count; i++)
+        {
             if (i + 1 <= path.Count - 1 && path[i].direction != path[i + 1].direction)
                 movementPoints.Add(path[i]);
         }
@@ -197,5 +213,16 @@ public class Goblin : MonoBehaviour{
         movementPoints.Add(path[path.Count - 1]);
 
         return movementPoints;
-    } 
+    }
+
+
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.collider.name == "Player")
+        {
+            rend.material.color = Color.red;
+            Destroy(rend.gameObject);
+        }
+    }
 }
