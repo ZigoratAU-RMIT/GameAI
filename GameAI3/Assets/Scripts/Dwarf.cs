@@ -16,6 +16,11 @@ public class Dwarf : MonoBehaviour
     private int speed = 5;
 
     private Rigidbody2D body;
+    private FlockAgent flockAgent;
+    private Vector2 flockVelocity;
+    private Vector2 stateVelocity;
+    private float flockWeight;
+    private float stateWeight;
     private Vector2 steering;
 
     //Wander
@@ -28,7 +33,6 @@ public class Dwarf : MonoBehaviour
 
     private GameObject target;
     public LayerMask targetMask;
-    private Renderer rend;
     public List<GameObject> visibleTargets = new List<GameObject>();
 
     public int viewAngle = 180;
@@ -37,7 +41,7 @@ public class Dwarf : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        rend = GetComponent<Renderer>();
+        flockAgent = GetComponent<FlockAgent>();
     }
 
     // Update is called once per frame
@@ -102,7 +106,12 @@ public class Dwarf : MonoBehaviour
                 break;
         }
         body.velocity = Vector2.ClampMagnitude(body.velocity + steering, speed);
-        transform.up = body.velocity.normalized;
+        stateWeight = 1; // move later
+        flockWeight = 1;
+        flockVelocity = flockAgent.GetFlockVelocity().normalized * flockWeight;
+        stateVelocity = body.velocity.normalized * stateWeight;
+        transform.up = flockVelocity + stateVelocity;
+        transform.position += (Vector3)flockAgent.GetFlockPosition();
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -111,11 +120,12 @@ public class Dwarf : MonoBehaviour
         {
             // rend.material.color = Color.blue;
             System.Threading.Thread.Sleep(500);
+            flockAgent.RemoveFromFlock();
             Destroy(this.gameObject);
         }
 
         if (col.gameObject.GetComponent<Player>() != null){
-            print("collided with player");
+            state = (int)States.follow;
         }
     }
 }

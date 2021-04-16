@@ -12,7 +12,12 @@ public class FlockAgent : MonoBehaviour
     Collider2D agentCollider;
     public Collider2D AgentCollider { get { return agentCollider; } }
 
-    public float[] weights= { 1, 1, 1, 1, 10 };
+    Vector2 flockVelocity; // for transform.up
+    Vector2 flockPosition;
+
+
+    // avoidance, alignment, steered cohesion, stay in radius, avoid obstacles
+    public float[] weights= { 1, 3, 4, 1, 1};
 
     // Start is called before the first frame update
     void Start()
@@ -26,9 +31,29 @@ public class FlockAgent : MonoBehaviour
         agentFlock = flock;
     }
 
-    public void Move(Vector2 velocity)
+    public void UpdateFlockMove(Vector2 velocity)
     {
-        transform.up = velocity;
-        transform.position += (Vector3)velocity * Time.deltaTime;
+        flockVelocity = velocity;
+        flockPosition = (Vector3)velocity * Time.deltaTime;
+    }
+
+    public Vector2 GetFlockVelocity(){
+        return flockVelocity;
+    }
+
+    public Vector2 GetFlockPosition(){
+        return flockPosition;
+    }
+
+    public void RemoveFromFlock(){
+        agentFlock.RemoveAgent(this);
+    }
+
+    public void UpdateWeights(float a, float b, float c, float d, float e){
+        weights[0] = a;
+        weights[1] = b;
+        weights[2] = c;
+        weights[3] = d;
+        weights[4] = e;
     }
 }
