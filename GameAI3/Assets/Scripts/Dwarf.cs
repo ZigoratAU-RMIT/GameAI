@@ -7,28 +7,29 @@ public class Dwarf : MonoBehaviour
     //Define states
     private enum States
     {
-        wander,
-        flee,
-        follow,
+        wander, //0
+        flee,   //1
+        follow, //2
     }
 
-    int state = (int)States.wander;
+    public int state = (int)States.wander;
     private int speed = 5;
 
     private Rigidbody2D body;
+    private FlockAgent flockAgent;
+    private Vector2 flockVelocity;
+    private Vector2 stateVelocity;
+    private float flockWeight;
+    private float stateWeight;
     private Vector2 steering;
 
-    //Wander
-    private Vector2 circleCentre;
-    private Vector2 displacement;
-    private Vector2 wanderForce;
-
-    //Flee
-    private Vector2 desiredVelocity;
+    public Wander wander;
+    public Seek seek;
+    public FleeBehavior flee;
+    public Follow follow;
 
     private GameObject target;
     public LayerMask targetMask;
-    private Renderer rend;
     public List<GameObject> visibleTargets = new List<GameObject>();
 
     public int viewAngle = 180;
@@ -37,7 +38,7 @@ public class Dwarf : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        rend = GetComponent<Renderer>();
+        flockAgent = GetComponent<FlockAgent>();
     }
 
     // Update is called once per frame
@@ -47,22 +48,7 @@ public class Dwarf : MonoBehaviour
         {
             case (int)States.wander:
                 //Movement
-                circleCentre = body.velocity;
-                circleCentre = circleCentre.normalized * 2;
-
-                displacement = new Vector2(0, -1);
-                displacement = displacement.normalized * 2;
-
-                int heading = Random.Range(0, 360);
-
-                displacement.x = Mathf.Cos(heading);
-                displacement.y = Mathf.Sin(heading);
-
-                wanderForce = circleCentre + displacement;
-
-                steering = wanderForce - body.velocity;
-                steering = Vector2.ClampMagnitude(steering, speed);
-                steering /= 15f;
+                steering = wander.Movement(body.velocity, speed);
 
                 //Finding target
                 visibleTargets.Clear();
@@ -83,39 +69,55 @@ public class Dwarf : MonoBehaviour
                         state = (int)States.flee;
                     }
                 }
-
+                flockWeight = 1;
                 break;
             case (int)States.flee:
-                desiredVelocity = -((Vector2)target.transform.position - (Vector2)transform.position);
-                // distance = desiredVelocity.magnitude;
-
-                desiredVelocity = desiredVelocity.normalized * speed;
-
-                steering = desiredVelocity - body.velocity;
-                steering = Vector2.ClampMagnitude(steering, speed);
-                steering /= 15f;
+                steering = flee.calculateMove((Vector2)target.transform.position, transform.position, body, speed);
+                flockWeight = 1;
                 break;
             case (int)States.follow:
+                if(Vector2.Distance(transform.position, target.transform.position) < 2f){
+                    body.velocity = Vector2.zero;
+                }
+                follow.leader = target.GetComponent<Rigidbody2D>();
+                steering = follow.Movement();
+                flockWeight = 0;
                 break;
             default:
                 state = (int)States.wander;
                 break;
         }
         body.velocity = Vector2.ClampMagnitude(body.velocity + steering, speed);
-        transform.up = body.velocity.normalized;
+        stateWeight = 1;
+        flockVelocity = flockAgent.GetFlockVelocity().normalized * flockWeight;
+        stateVelocity = body.velocity.normalized * stateWeight;
+        transform.up = flockVelocity + stateVelocity;
+        if (flockWeight > 0){
+            transform.position += (Vector3)flockAgent.GetFlockPosition();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.GetComponent<Goblin>() != null)
         {
-            // rend.material.color = Color.blue;
-            System.Threading.Thread.Sleep(500);
-            Destroy(this.gameObject);
+            if(state != (int)States.follow){
+                flockAgent.RemoveFromFlock();
+                Destroy(this.gameObject);
+            }
         }
 
         if (col.gameObject.GetComponent<Player>() != null){
-            print("collided with player");
+            // target = col.gameObject;
+            if(!col.gameObject.GetComponent<Player>().followers.Contains(this)){
+                int followersCount = col.gameObject.GetComponent<Player>().followers.Count;
+                if(followersCount > 0){
+                    target = col.gameObject.GetComponent<Player>().followers[followersCount-1].gameObject;
+                } else if (followersCount == 0){
+                    target = col.gameObject.GetComponent<Player>().gameObject;
+                }
+                state = (int)States.follow;
+            }
         }
     }
 }

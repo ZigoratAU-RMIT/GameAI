@@ -5,11 +5,12 @@ using UnityEngine;
 public class Flock : MonoBehaviour
 {
     public FlockAgent agentPrefab;
+    public Map map;
     List<FlockAgent> agents = new List<FlockAgent>();
     public FlockBehavior behavior;
 
-    [Range(10, 500)]
-    public int startingCount = 250;
+    [Range(5, 200)]
+    public int startingCount = 15;
     const float AgentDensity = 0.08f;
 
     [Range(1f, 100f)]
@@ -39,15 +40,11 @@ public class Flock : MonoBehaviour
 
         for (int i = 0; i < startingCount; i++)
         {
-
+            bool isDwarf = (agentPrefab.name == "Dwarf") ? true : false;
+            Vector3 agentPos = map.GetRandomPoint(isDwarf);
             FlockAgent newAgent = Instantiate(
-                agentPrefab,
-
-                new Vector3(Random.Range(-mapSizeX, mapSizeX), Random.Range(-mapSizeY, mapSizeY),0),
-                Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)),
-                transform
-                );
-            newAgent.name = "Agent " + i;
+                agentPrefab, agentPos, Quaternion.identity, transform);
+            newAgent.name = agentPrefab.name + i;
             newAgent.Initialize(this);
             agents.Add(newAgent);
         }
@@ -69,7 +66,7 @@ public class Flock : MonoBehaviour
             {
                 move = move.normalized * maxSpeed;
             }
-            agent.Move(move);
+            agent.UpdateFlockMove(move);
         }
     }
 
@@ -85,6 +82,10 @@ public class Flock : MonoBehaviour
             }
         }
         return context;
+    }
+
+    public void RemoveAgent(FlockAgent agent){
+        agents.Remove(agent);
     }
 
 }

@@ -3,37 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Follow : MonoBehaviour{
-    public Rigidbody2D player;
+    public Rigidbody2D leader;
     private Rigidbody2D body;
     Vector2 steering;
     Vector2 desiredVelocity;
-    public int LEADER_BEHIND_DIST = 1;
+    float slowingRadius = 2f;
+    public int LEADER_BEHIND_DIST = 3;
     // Start is called before the first frame update
     void Start(){
         body = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void FixedUpdate(){
-        if(Vector2.Distance(transform.position, player.position) < 2f){
-            body.velocity = Vector2.zero;
-            return;
-        }
+    public Vector2 Movement(){
+        //if(Vector2.Distance(transform.position, leader.position) < 2f){
+        //    steering = Vector2.zero;
+        //    return steering;
+        //}
 
-        Vector2 targetVelocity = player.velocity * -1;
+        Vector2 targetVelocity = leader.velocity * -1;
         targetVelocity = targetVelocity.normalized * LEADER_BEHIND_DIST;
-        Vector2 behind = player.position + targetVelocity;
-
+        Vector2 behind = leader.position + targetVelocity;
         desiredVelocity = behind - (Vector2)transform.position;
-        desiredVelocity = desiredVelocity.normalized * 5;
+        float distance = desiredVelocity.magnitude;
+ 
+        // Check the distance to detect whether the character
+        // is inside the slowing area
+        if (distance < slowingRadius) {
+            // Inside the slowing area
+            desiredVelocity = desiredVelocity.normalized * 5 * (distance / slowingRadius);
+        } else {
+            // Outside the slowing area.
+            desiredVelocity = desiredVelocity.normalized * 5;
+        }
 
         steering = desiredVelocity - body.velocity;
         steering = Vector2.ClampMagnitude(steering, 5);
         steering /= 15f;
          
-        body.velocity = Vector2.ClampMagnitude(body.velocity + steering, 5);
-        transform.up = body.velocity.normalized;
         Debug.DrawRay(transform.position, body.velocity.normalized * 2, Color.green);
         Debug.DrawLine(body.position, behind, Color.blue);
+
+        return steering;
     }
 }

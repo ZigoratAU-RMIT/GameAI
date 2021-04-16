@@ -24,6 +24,8 @@ public class Player : MonoBehaviour{
 
     private Pathfinding pf;
 
+    public List<Dwarf> followers = new List<Dwarf>(){};
+
     void Start(){
         body = GetComponent<Rigidbody2D>();
         pf = GetComponent<Pathfinding>();
@@ -150,8 +152,10 @@ public class Player : MonoBehaviour{
         }
 
         if (col.gameObject.GetComponent<Dwarf>() != null){
-            print("player collided with dwarf");
-            gm.AddPlayerScore();
+            if (!followers.Contains(col.gameObject.GetComponent<Dwarf>())){ // follow
+                gm.AddPlayerScore();
+                followers.Add(col.gameObject.GetComponent<Dwarf>());
+            }
         }
     }
 
