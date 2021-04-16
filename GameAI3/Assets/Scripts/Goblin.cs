@@ -28,8 +28,10 @@ public class Goblin : MonoBehaviour{
     private Vector2 wanderForce;
 
 
-    //Seek
+    //Seek & Flee
     private Vector2 desiredVelocity;
+    // float distance;
+    float dstToTarget;
     private int recheck = 45;
 
     //Chase
@@ -77,7 +79,7 @@ public class Goblin : MonoBehaviour{
                     GameObject target_ = targetsInViewRadius[i].gameObject;
                     Vector2 dirToTarget = (target_.transform.position - transform.position).normalized;
                     if(Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2){
-                        float dstToTarget = Vector2.Distance(transform.position, target_.transform.position);
+                        dstToTarget = Vector2.Distance(transform.position, target_.transform.position);
                         //If line draw form object to target is not interrupted by wall, add target to list of visible targets
                         //if(!Physics2D.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                         visibleTargets.Add(target_);
@@ -149,8 +151,31 @@ public class Goblin : MonoBehaviour{
                 steering = Vector2.ClampMagnitude(steering, speed);
                 steering /= 15f;
 
+                // distance = desiredVelocity.magnitude;
+                dstToTarget = Vector2.Distance(transform.position, target.transform.position);
+                print(dstToTarget);
+                if(dstToTarget < 1f){
+                    state = (int)States.flee;
+                }
+
                 break;
             case (int)States.flee:
+                desiredVelocity = -((Vector2)target.transform.position - (Vector2)transform.position);
+                // distance = desiredVelocity.magnitude;
+
+                desiredVelocity = desiredVelocity.normalized * speed;
+
+                steering = desiredVelocity - body.velocity;
+                steering = Vector2.ClampMagnitude(steering, speed);
+                steering /= 15f;
+
+                // distance = desiredVelocity.magnitude;
+                dstToTarget = Vector2.Distance(transform.position, target.transform.position);
+                print(dstToTarget);
+                if(dstToTarget > 5f){
+                    state = (int)States.wander;
+                }
+
                 break;
             default:
                 state = (int)States.wander;
