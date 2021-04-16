@@ -81,7 +81,7 @@ public class Dwarf : MonoBehaviour
                 }
                 follow.leader = target.GetComponent<Rigidbody2D>();
                 steering = follow.Movement();
-                flockWeight = 0.5f;
+                flockWeight = 0;
                 break;
             default:
                 state = (int)States.wander;

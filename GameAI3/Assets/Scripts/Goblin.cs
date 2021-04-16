@@ -48,6 +48,7 @@ public class Goblin : MonoBehaviour
 
     void Start()
     {
+        transform.position = pf.map.GetRandomPoint(false);
         body = GetComponent<Rigidbody2D>();
         rend = GetComponent<Renderer>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();

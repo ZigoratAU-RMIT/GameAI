@@ -5,6 +5,7 @@ using UnityEngine;
 public class Flock : MonoBehaviour
 {
     public FlockAgent agentPrefab;
+    public Map map;
     List<FlockAgent> agents = new List<FlockAgent>();
     public FlockBehavior behavior;
 
@@ -39,14 +40,10 @@ public class Flock : MonoBehaviour
 
         for (int i = 0; i < startingCount; i++)
         {
-
+            bool isDwarf = (agentPrefab.name == "Dwarf") ? true : false;
+            Vector3 agentPos = map.GetRandomPoint(isDwarf);
             FlockAgent newAgent = Instantiate(
-                agentPrefab,
-
-                new Vector3(Random.Range(-mapSizeX, mapSizeX), Random.Range(-mapSizeY, mapSizeY),0),
-                Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)),
-                transform
-                );
+                agentPrefab, agentPos, Quaternion.identity, transform);
             newAgent.name = agentPrefab.name + i;
             newAgent.Initialize(this);
             agents.Add(newAgent);

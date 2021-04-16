@@ -7,8 +7,8 @@ public class Follow : MonoBehaviour{
     private Rigidbody2D body;
     Vector2 steering;
     Vector2 desiredVelocity;
-    float slowingRadius = 5f;
-    public int LEADER_BEHIND_DIST = 5;
+    float slowingRadius = 2f;
+    public int LEADER_BEHIND_DIST = 3;
     // Start is called before the first frame update
     void Start(){
         body = GetComponent<Rigidbody2D>();

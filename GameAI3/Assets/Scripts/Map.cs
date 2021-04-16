@@ -55,7 +55,8 @@ public class Map : MonoBehaviour
     public int riverWidth = 3;
     [Range(1,5)]
     public int riverBranch = 1;
-    List<WorldTile> riverPath;
+    List<WorldTile> riverPath = new List<WorldTile>();
+    List<WorldTile> branchPath = new List<WorldTile>();
 
     Pathfinding pf; // to access pathfinding functions
 
@@ -245,9 +246,10 @@ public class Map : MonoBehaviour
             int branchWidth = riverWidth-1; // branch should be less wide
 
             List<WorldTile> path = pf.FindPath(start, end);
-            path.Add(end);
+            // path.Add(end);
 
             foreach(WorldTile tile in path){
+                branchPath.Add(tile);
                 for(int i=0;i<branchWidth;i++){
                     int offset = i - (int)Mathf.Ceil((float)riverWidth/2.0f);
                     if (tile.gridX+offset > 0 && tile.gridX+offset < mapWidth){
@@ -269,21 +271,6 @@ public class Map : MonoBehaviour
         for(int x=0; x < mapWidth; x++){
             obstacleLayer.SetTile(TmapTransform(x, 0), tree);
             obstacleLayer.SetTile(TmapTransform(x, mapHeight-1), tree);
-        }
-    }
-
-    void GenerateNPC(){
-        GridLayout gl = obstacleLayer.transform.parent.GetComponentInParent<GridLayout>();
-
-        // NPC generation
-        for(int i=0;i<dwarfNum;i++){
-            Vector3 dwarfPos = (Vector3)gl.WorldToCell(GetRandomPoint());
-            Instantiate(dwarf, dwarfPos, Quaternion.identity);
-        }
-
-        for(int i=0;i<goblinNum;i++){
-            Vector3 goblinPos = (Vector3)gl.WorldToCell(GetRandomPoint());
-            Instantiate(goblin, goblinPos, Quaternion.identity);
         }
     }
 
@@ -411,20 +398,36 @@ public class Map : MonoBehaviour
     
 
     // HELPER METHODS: NPC generation
-    Vector3Int GetRandomPoint(){
-        bool walkable = false;
-        bool reachable = false;
+    // this method is called from somewhere else to get location to instantiate the NPC
+    public Vector3 GetRandomPoint(bool dwarf){
+        bool pass = false;
         int x = 0;
         int y = 0;
-        while(!reachable){
-            while(!walkable){
-                x = Random.Range(0, mapWidth-1);
-                y = Random.Range(0, mapHeight-1);
-                walkable = ObstacleFree(x,y);
+        int dwarfLimit = 40;
+        int goblinLimit = 20;
+        GridLayout gl = obstacleLayer.transform.parent.GetComponentInParent<GridLayout>();
+        while(!pass){
+            if (dwarf){
+                int index = Random.Range(0, riverPath.Count);
+                x = riverPath[index].gridX;
+                y = riverPath[index].gridY;
+                if (y < dwarfLimit || y > mapWidth-dwarfLimit){
+                    if(ObstacleFree(x,y)){
+                        pass = true;
+                    }
+                }
+            } else { // goblin
+                int index = Random.Range(0, branchPath.Count);
+                x = branchPath[index].gridX;
+                y = branchPath[index].gridY;
+                if (x < goblinLimit || x > mapWidth-goblinLimit){
+                    if(ObstacleFree(x,y)){
+                        pass = true;
+                    }
+                }
             }
-            reachable = ReachablePoint(x,y);
         }
-        return TmapTransform(x,y);
+        return (Vector3)gl.WorldToCell(WorldTileTmapTransform(x,y));
     }
 
     // HELPER METHODS: Create Grid
