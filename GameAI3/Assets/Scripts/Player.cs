@@ -56,29 +56,27 @@ public class Player : MonoBehaviour{
             smoothedPath.Add(movementPoints[0]);
             bool smoothing = true;
             int currentTargetNode = 1; //starting at second point the path because the first is always valid
-            int HELP =0;
+            int emergencyBreak = 0;
             while(smoothing){
-                if(HELP > 100)
+                if(emergencyBreak > 30)
                     smoothing = false;
+
                 for(int i = currentTargetNode; i < movementPoints.Count; i++){ 
                     Vector2 targetPos = new Vector2(movementPoints[i].cellX + 0.5f, movementPoints[i].cellY + 0.5f);
                     Vector2 targetDir = (targetPos - startPos).normalized;
                     float targetDst = Vector2.Distance(targetPos, startPos); 
-                    //RaycastHit2D hit = Physics2D.Linecast(startPos, targetPos, layer);
                     RaycastHit2D hit = Physics2D.BoxCast(startPos, new Vector2(0.75f,0.75f), 0, targetDir, targetDst, layer);
-                    //Debug.DrawLine(startPos, targetPos, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f), 10f);
                     if(hit.collider != null){
                         smoothedPath.Add(movementPoints[i - 1]);
                         startPos = new Vector2(movementPoints[i - 1].cellX + 0.5f, movementPoints[i - 1].cellY + 0.5f);
                         currentTargetNode = i - 1;
-                        Debug.DrawLine(startPos, targetPos, Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f), 10f);
                         continue;
                     }
                 }
-                if(currentTargetNode >= movementPoints.Count)
+                if(currentTargetNode + 1 >= movementPoints.Count - 1)
                     smoothing = false; 
 
-                HELP++; 
+                emergencyBreak++; 
             }
             smoothedPath.Add(movementPoints[movementPoints.Count - 1]);
             target = new Vector2(smoothedPath[index].cellX + 0.5f, smoothedPath[index].cellY + 0.5f);
