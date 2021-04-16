@@ -221,6 +221,7 @@ public class Goblin : MonoBehaviour
     {
         if (col.collider.name == "Player")
         {
+            rend.gameObject.Explode();
             rend.material.color = Color.red;
             System.Threading.Thread.Sleep(500);
             Destroy(rend.gameObject);
