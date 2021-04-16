@@ -23,13 +23,10 @@ public class Dwarf : MonoBehaviour
     private float stateWeight;
     private Vector2 steering;
 
-    //Wander
-    private Vector2 circleCentre;
-    private Vector2 displacement;
-    private Vector2 wanderForce;
-
-    //Flee
-    private Vector2 desiredVelocity;
+    public Wander wander;
+    public Seek seek;
+    public FleeBehavior flee;
+    public Follow follow;
 
     private GameObject target;
     public LayerMask targetMask;
@@ -51,22 +48,7 @@ public class Dwarf : MonoBehaviour
         {
             case (int)States.wander:
                 //Movement
-                circleCentre = body.velocity;
-                circleCentre = circleCentre.normalized * 2;
-
-                displacement = new Vector2(0, -1);
-                displacement = displacement.normalized * 2;
-
-                int heading = Random.Range(0, 360);
-
-                displacement.x = Mathf.Cos(heading);
-                displacement.y = Mathf.Sin(heading);
-
-                wanderForce = circleCentre + displacement;
-
-                steering = wanderForce - body.velocity;
-                steering = Vector2.ClampMagnitude(steering, speed);
-                steering /= 15f;
+                steering = wander.Movement(body.velocity, speed);
 
                 //Finding target
                 visibleTargets.Clear();
@@ -90,16 +72,13 @@ public class Dwarf : MonoBehaviour
 
                 break;
             case (int)States.flee:
-                desiredVelocity = -((Vector2)target.transform.position - (Vector2)transform.position);
-                // distance = desiredVelocity.magnitude;
-
-                desiredVelocity = desiredVelocity.normalized * speed;
-
-                steering = desiredVelocity - body.velocity;
-                steering = Vector2.ClampMagnitude(steering, speed);
-                steering /= 15f;
+                steering = flee.calculateMove((Vector2)target.transform.position, transform.position, body, speed);
                 break;
             case (int)States.follow:
+                if(Vector2.Distance(transform.position, target.transform.position) < 2f){
+                    body.velocity = Vector2.zero;
+                }
+                steering = follow.Movement();
                 break;
             default:
                 state = (int)States.wander;
@@ -125,6 +104,7 @@ public class Dwarf : MonoBehaviour
         }
 
         if (col.gameObject.GetComponent<Player>() != null){
+            target = col.gameObject;
             state = (int)States.follow;
         }
     }
