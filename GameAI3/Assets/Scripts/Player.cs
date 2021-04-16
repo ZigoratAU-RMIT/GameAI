@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour{
+
+    private GameManager gm;
+
     List<WorldTile> movementPoints = new List<WorldTile>();
     List<WorldTile> path = new List<WorldTile>(); 
     List<WorldTile> smoothedPath = new List<WorldTile>();
@@ -24,6 +27,7 @@ public class Player : MonoBehaviour{
     void Start(){
         body = GetComponent<Rigidbody2D>();
         pf = GetComponent<Pathfinding>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update(){
@@ -136,4 +140,19 @@ public class Player : MonoBehaviour{
             Debug.DrawLine(new Vector2(smoothedPath[i].cellX + 0.5f, smoothedPath[i].cellY + 0.5f), new Vector2(smoothedPath[i + 1].cellX + 0.5f, smoothedPath[i + 1].cellY + 0.5f), Color.red);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.GetComponent<Goblin>() != null)
+        {
+            print("player collided with goblin");
+            gm.ResetPlayerScore();
+        }
+
+        if (col.gameObject.GetComponent<Dwarf>() != null){
+            print("player collided with dwarf");
+            gm.AddPlayerScore();
+        }
+    }
+
 }

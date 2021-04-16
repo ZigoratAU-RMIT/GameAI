@@ -56,6 +56,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void AddGoblinScore(){
+        goblinScore++;
+        //dwarvesRemaining--;
+    }
+
+    public void AddPlayerScore(){
+        playerScore++;
+    }
+
+    public void ResetPlayerScore(){
+        playerScore = 0;
+    }
+
     void GameOver(){
         Time.timeScale = 0;
         pauseMenu.SetActive(false);
