@@ -292,6 +292,11 @@ PrefabInstance:
       propertyPath: layer.m_Bits
       value: 256
       objectReference: {fileID: 0}
+    - target: {fileID: 4588117352648601883, guid: a97f2d1992b9b4f5b870a42fdc056e78,
+        type: 3}
+      propertyPath: layer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 4736469200028886135, guid: a97f2d1992b9b4f5b870a42fdc056e78,
         type: 3}
       propertyPath: orthographic size
