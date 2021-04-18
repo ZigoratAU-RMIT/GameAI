@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FleeBehavior : MonoBehaviour
+public class Flee : MonoBehaviour
 {
     public Vector2 calculateMove(Vector2 agentPos, Vector2 playerPos, Rigidbody2D body, float maxSpeed){
         Vector2 desiredVelocity = -(playerPos - agentPos);

@@ -25,7 +25,7 @@ public class Dwarf : MonoBehaviour
 
     public Wander wander;
     public Seek seek;
-    public FleeBehavior flee;
+    public Flee flee;
     public Follow follow;
 
     private GameObject target;

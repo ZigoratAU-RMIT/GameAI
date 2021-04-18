@@ -16,7 +16,7 @@ public class Goblin : MonoBehaviour
     private GameManager gm;
     public Wander wander;
     public Seek seek;
-    public FleeBehavior flee;
+    public Flee flee;
 
     //Pathfinding
     public Pathfinding pf;
