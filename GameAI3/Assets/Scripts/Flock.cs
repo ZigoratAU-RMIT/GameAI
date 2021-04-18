@@ -25,6 +25,8 @@ public class Flock : MonoBehaviour
     [Range(0f, 1f)]
     public float avoidanceRadiusMultiplier = 0.5f;
 
+    public float avoidRadius;
+
     float squareMaxSpeed;
     float squareNeighborRadius;
     float squareAvoidanceRadius;
@@ -37,6 +39,7 @@ public class Flock : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        avoidRadius = avoidanceRadiusMultiplier + neighborRadius;
         squareMaxSpeed = maxSpeed * maxSpeed;
         squareNeighborRadius = neighborRadius * neighborRadius;
         squareAvoidanceRadius = squareNeighborRadius * avoidanceRadiusMultiplier * avoidanceRadiusMultiplier;
