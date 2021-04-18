@@ -197,7 +197,7 @@ MonoBehaviour:
   follow: {fileID: 8418337306976204712}
   targetMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   visibleTargets: []
   viewAngle: 180
   deathSound: {fileID: 8300000, guid: db04ed4ad82bc3e42a5988b72feca133, type: 3}
