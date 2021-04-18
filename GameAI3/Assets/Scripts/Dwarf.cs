@@ -34,6 +34,8 @@ public class Dwarf : MonoBehaviour
 
     public int viewAngle = 180;
 
+    public AudioClip deathSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -114,6 +116,7 @@ public class Dwarf : MonoBehaviour
         {
             if(state != (int)States.follow){
                 flockAgent.RemoveFromFlock();
+                AudioSource.PlayClipAtPoint(deathSound, transform.position, 1f);
                 Destroy(this.gameObject);
             }
         }

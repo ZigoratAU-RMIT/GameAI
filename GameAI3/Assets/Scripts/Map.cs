@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class Map : MonoBehaviour
 {
@@ -62,6 +63,8 @@ public class Map : MonoBehaviour
     List<WorldTile> riverPath = new List<WorldTile>();
 
     Pathfinding pf; // to access pathfinding functions
+    public GameObject loadingPanel;
+    public Text loadingText;
 
     void Awake(){
         scanStartX = -(mapWidth/2+1);
@@ -80,6 +83,9 @@ public class Map : MonoBehaviour
         GenerateBranch();
 
         GenerateBorder();
+
+        loadingPanel.SetActive(false);
+        loadingText.text = "Press the escape key to play";
 
         // GenerateNPC();
     }
