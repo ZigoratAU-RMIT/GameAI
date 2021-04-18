@@ -76,7 +76,7 @@ public class Dwarf : MonoBehaviour
                 break;
             case (int)States.flee:
                 steering = flee.calculateMove((Vector2)target.transform.position, transform.position, body, speed);
-                flockWeight = 1;
+                flockWeight = 0.3f;
 
                 //flock behaviour weights for flee
                 flockAgent.UpdateWeights(1.0f, 3.0f, 4.0f, 0.9f, 5.0f);

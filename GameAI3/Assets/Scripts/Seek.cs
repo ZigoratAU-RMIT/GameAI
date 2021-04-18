@@ -8,7 +8,7 @@ public class Seek : MonoBehaviour{
     private Vector2 steering;
 
     public Vector2 Movement(Vector2 position, Vector2 targetPosition, Vector2 bodyVelocity, int speed){
-        desiredVelocity = targetPosition - position;
+        desiredVelocity = -(targetPosition - position);
         desiredVelocity = desiredVelocity.normalized * speed;
 
         steering = desiredVelocity - bodyVelocity;
