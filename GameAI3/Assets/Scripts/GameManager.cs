@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public bool isPaused = true;
-    public bool isGameOver = false;
+    public static bool isPaused = true;
     public float timeRemaining = 90.9f;
 
     public int goblinScore = 0;
@@ -35,9 +33,6 @@ public class GameManager : MonoBehaviour
             GameOver();
 
         if(Input.GetKeyDown(KeyCode.Escape)){
-            if(isGameOver)
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
             isPaused = !isPaused;
             PauseGame();
         }        
@@ -79,6 +74,5 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(false);
         HUD.SetActive(false);
         GameOverScreen.SetActive(true);
-        isGameOver = true;
     }
 }

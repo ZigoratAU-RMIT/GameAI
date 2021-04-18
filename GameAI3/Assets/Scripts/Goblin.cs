@@ -23,7 +23,7 @@ public class Goblin : MonoBehaviour
     List<WorldTile> movementPoints = new List<WorldTile>();
     List<WorldTile> path = new List<WorldTile>();
 
-    public int state = (int)States.wander;
+    int state = (int)States.wander;
     private int speed = 5;
 
     private Rigidbody2D body;
@@ -78,8 +78,7 @@ public class Goblin : MonoBehaviour
                         movementPoints.Clear();
                         movementPoints = pathFind(transform.position, target.transform.position, pf);
                         targetPosition = new Vector2(movementPoints[index].cellX + 0.5f, movementPoints[index].cellY + 0.5f);
-                        
-                        visibleTargets.Clear();
+
                         state = (int)States.seek;
                     }
                 }
@@ -132,15 +131,11 @@ public class Goblin : MonoBehaviour
 
                 break;
             case (int)States.chase:
-                if(target == null)
-                    state = (int)States.wander;
-
                 steering = seek.Movement((Vector2)target.transform.position, transform.position, body.velocity, speed);
 
                 // distance = desiredVelocity.magnitude;
                 dstToTarget = Vector2.Distance(transform.position, target.transform.position);
-                if(dstToTarget > 10f)
-                    state = (int)States.wander;
+                //print(dstToTarget);
 
                 break;
             case (int)States.flee:
@@ -167,7 +162,8 @@ public class Goblin : MonoBehaviour
     {
         List<WorldTile> movementPoints = new List<WorldTile>();
         path = pf.FindPathFromWorldPos(position, target);
-        for (int i = 0; i < path.Count; i++){
+        for (int i = 0; i < path.Count; i++)
+        {
             if (i + 1 <= path.Count - 1 && path[i].direction != path[i + 1].direction)
                 movementPoints.Add(path[i]);
         }
@@ -177,16 +173,16 @@ public class Goblin : MonoBehaviour
         return movementPoints;
     }
 
-    private void OnCollisionEnter2D(Collision2D col){
+    private void OnCollisionEnter2D(Collision2D col)
+    {
         if (col.gameObject.GetComponent<Player>() != null)
         {
             state = (int)States.flee;
         }
         if (col.gameObject.GetComponent<Dwarf>() != null)
         {
-            gm.AddGoblinScore(); 
+            gm.AddGoblinScore();
             state = (int)States.wander;
-            Debug.Log("Entering wander");
         }
     }
 }
