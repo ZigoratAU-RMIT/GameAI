@@ -70,8 +70,8 @@ public class GameManager : MonoBehaviour
         playerScore++;
     }
 
-    public void ResetPlayerScore(){
-        playerScore = 0;
+    public void MinusPlayerScore(){
+        playerScore--;
     }
 
     void GameOver(){

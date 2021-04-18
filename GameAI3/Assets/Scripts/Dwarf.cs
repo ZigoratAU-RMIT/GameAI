@@ -16,7 +16,7 @@ public class Dwarf : MonoBehaviour
     private int speed = 5;
 
     private Rigidbody2D body;
-    private FlockAgent flockAgent;
+    public FlockAgent flockAgent;
     private Vector2 flockVelocity;
     private Vector2 stateVelocity;
     private float flockWeight;
@@ -100,8 +100,8 @@ public class Dwarf : MonoBehaviour
 
                 // flock behaviour weights for follow
                 flockAgent.UpdateWeights(0.01f, 0.01f, 0.01f, 0.9f, 1.0f);
-                Debug.Log("following");
-                Debug.Log(gameObject);
+                // Debug.Log("following");
+                // Debug.Log(gameObject);
                 break;
             default:
                 state = (int)States.wander;

@@ -66,6 +66,11 @@ public class Goblin : MonoBehaviour
                 for (int i = 0; i < targetsInViewRadius.Length; i++)
                 {
                     GameObject target_ = targetsInViewRadius[i].gameObject;
+                    if (targetsInViewRadius[i].gameObject.GetComponent<Dwarf>() != null){
+                        if (targetsInViewRadius[i].gameObject.GetComponent<Dwarf>().state == 2){ // if dwarf is following player, then ignore
+                            continue;
+                        }
+                    }
                     Vector2 dirToTarget = (target_.transform.position - transform.position).normalized;
                     if (Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2)
                     {
@@ -190,9 +195,11 @@ public class Goblin : MonoBehaviour
         }
         if (col.gameObject.GetComponent<Dwarf>() != null)
         {
-            gm.AddGoblinScore(); 
-            state = (int)States.wander;
-            Debug.Log("Entering wander");
+            if(col.gameObject.GetComponent<Dwarf>().state != 2){ // if dwarf is not following the player
+                gm.AddGoblinScore(); 
+                state = (int)States.wander;
+                // Debug.Log("Entering wander");
+            }
         }
     }
 }

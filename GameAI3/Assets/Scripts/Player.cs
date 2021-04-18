@@ -26,6 +26,9 @@ public class Player : MonoBehaviour{
 
     public List<Dwarf> followers = new List<Dwarf>(){};
 
+    public AudioClip deathSound;
+    float dstToTarget;
+
     void Start(){
         body = GetComponent<Rigidbody2D>();
         pf = GetComponent<Pathfinding>();
@@ -148,7 +151,16 @@ public class Player : MonoBehaviour{
         if (col.gameObject.GetComponent<Goblin>() != null)
         {
             print("player collided with goblin");
-            gm.ResetPlayerScore();
+            gm.MinusPlayerScore();
+            if(followers.Count > 0){
+                int index = followers.Count-1;
+                Dwarf removeDwarf = followers[index];
+                followers.RemoveAt(index);
+                removeDwarf.flockAgent.RemoveFromFlock();
+                AudioSource.PlayClipAtPoint(deathSound, removeDwarf.transform.position, 1f);
+                Destroy(removeDwarf.gameObject);
+                print("destroyed dwarf object");
+            }
         }
 
         if (col.gameObject.GetComponent<Dwarf>() != null){
