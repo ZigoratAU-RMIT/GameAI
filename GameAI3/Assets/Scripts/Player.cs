@@ -150,7 +150,6 @@ public class Player : MonoBehaviour{
     {
         if (col.gameObject.GetComponent<Goblin>() != null)
         {
-            print("player collided with goblin");
             gm.MinusPlayerScore();
             if(followers.Count > 0){
                 int index = followers.Count-1;
@@ -159,7 +158,6 @@ public class Player : MonoBehaviour{
                 removeDwarf.flockAgent.RemoveFromFlock();
                 AudioSource.PlayClipAtPoint(deathSound, removeDwarf.transform.position, 1f);
                 Destroy(removeDwarf.gameObject);
-                print("destroyed dwarf object");
             }
         }
 

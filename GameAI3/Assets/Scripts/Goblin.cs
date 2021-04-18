@@ -94,7 +94,7 @@ public class Goblin : MonoBehaviour
 
                 break;
             case (int)States.seek:
-                if(target == null){
+                if(target == null || Vector2.Distance(transform.position, targetPosition) > 5f){
                     state = (int)States.wander;
                     return;
                 }
