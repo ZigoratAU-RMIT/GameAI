@@ -41,7 +41,11 @@ public class Map : MonoBehaviour
     public GameObject gridNode;
     public GameObject nodePrefab;
 
-    public int scanStartX = -1000, scanStartY = -1000, scanFinishX = 1000, scanFinishY = 1000, gridSizeX, gridSizeY;
+    int scanStartX;
+    int scanStartY;
+    int scanFinishX;
+    int scanFinishY;
+    int gridSizeX, gridSizeY;
 
     private List<GameObject> unsortedNodes = new List<GameObject>();
     public GameObject[,] nodes;
@@ -56,11 +60,15 @@ public class Map : MonoBehaviour
     [Range(1,5)]
     public int riverBranch = 1;
     List<WorldTile> riverPath = new List<WorldTile>();
-    List<WorldTile> branchPath = new List<WorldTile>();
 
     Pathfinding pf; // to access pathfinding functions
 
     void Awake(){
+        scanStartX = -(mapWidth/2+1);
+        scanStartY = -(mapHeight/2+1);
+        scanFinishX = mapWidth/2+1 ;
+        scanFinishY = mapHeight/2+1 ;
+
         pf = GetComponent<Pathfinding>();
 
         GenerateTiles();
@@ -137,7 +145,6 @@ public class Map : MonoBehaviour
                         node.name = "Unwalkable_" + gridX.ToString() + "_" + gridY.ToString();
                         node.GetComponent<SpriteRenderer>().color = Color.red;
                         node.GetComponent<WorldTile>().walkable = false;
-                        node.layer = 8;
                     }
 
                     unsortedNodes.Add(node);
@@ -238,6 +245,7 @@ public class Map : MonoBehaviour
             }
         }
 
+        List<WorldTile> branchPath = new List<WorldTile>();
         foreach(Vector3Int edge in randomMapEdges){
             // get a random river point
             int riverOffset = 10; // we only want to make branch from the middle of the main river
@@ -262,6 +270,7 @@ public class Map : MonoBehaviour
                 }
             }
         }
+        riverPath.AddRange(branchPath);
     }
 
     void GenerateBorder(){
@@ -349,7 +358,7 @@ public class Map : MonoBehaviour
         float yCoord = -(float)y/mapHeight * scale + offsetY;
         float sample = Mathf.PerlinNoise(xCoord, yCoord); // value would be between 0 and 1 inclusive
 
-        if (sample > 0.5f && sample <= 0.7f){
+        if (sample >= 0.6f && sample <= 0.7f){
             if (baseLayer.GetTile<Tile>(TmapTransform(x,y)) == grass){
                 pass = true;  
             }
@@ -404,24 +413,23 @@ public class Map : MonoBehaviour
         bool pass = false;
         int x = 0;
         int y = 0;
-        int dwarfLimit = 40;
-        int goblinLimit = 20;
+        int limit = (dwarf) ? 40 : 10;
         GridLayout gl = obstacleLayer.transform.parent.GetComponentInParent<GridLayout>();
         while(!pass){
             if (dwarf){
                 int index = Random.Range(0, riverPath.Count);
                 x = riverPath[index].gridX;
                 y = riverPath[index].gridY;
-                if (y < dwarfLimit || y > mapWidth-dwarfLimit){
+                if (y < limit || y > mapWidth-limit){
                     if(ObstacleFree(x,y)){
                         pass = true;
                     }
                 }
             } else { // goblin
-                int index = Random.Range(0, branchPath.Count);
-                x = branchPath[index].gridX;
-                y = branchPath[index].gridY;
-                if (x < goblinLimit || x > mapWidth-goblinLimit){
+                int index = Random.Range(0, riverPath.Count);
+                x = riverPath[index].gridX;
+                y = riverPath[index].gridY;
+                if (x < limit || x > mapWidth-limit){
                     if(ObstacleFree(x,y)){
                         pass = true;
                     }
