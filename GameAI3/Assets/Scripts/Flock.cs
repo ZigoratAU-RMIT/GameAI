@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// the base flocking code is taken from https://github.com/boardtobits/flocking-algorithm
+
+
 public class Flock : MonoBehaviour
 {
     public FlockAgent agentPrefab;

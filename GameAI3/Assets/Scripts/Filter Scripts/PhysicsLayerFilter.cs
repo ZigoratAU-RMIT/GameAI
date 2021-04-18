@@ -7,17 +7,23 @@ public class PhysicsLayerFilter : ContextFilter
 {
     public LayerMask mask;
 
+    private List<Transform> filtered = new List<Transform>();
+
     public override List<Transform> Filter(FlockAgent agent, List<Transform> original)
     {
-        List<Transform> filtered = new List<Transform>();
-        foreach (Transform item in original)
+        if(filtered.Count == 0)
         {
-            if (mask == (mask | (1 << item.gameObject.layer)))
+            foreach (Transform item in original)
             {
-               // Debug.Log(item);
-                filtered.Add(item);
+                if (mask == (mask | (1 << item.gameObject.layer)))
+                {
+                    Debug.Log(item);
+                    filtered.Add(item);
+                }
             }
         }
+        
+        
         return filtered;
     }
 }

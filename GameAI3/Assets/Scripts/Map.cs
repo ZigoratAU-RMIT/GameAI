@@ -137,6 +137,7 @@ public class Map : MonoBehaviour
                         node.name = "Unwalkable_" + gridX.ToString() + "_" + gridY.ToString();
                         node.GetComponent<SpriteRenderer>().color = Color.red;
                         node.GetComponent<WorldTile>().walkable = false;
+                        node.layer = 8;
                     }
 
                     unsortedNodes.Add(node);
@@ -155,7 +156,7 @@ public class Map : MonoBehaviour
                 foundTileOnLastPass = false;
             }
 
-            gridNode.SetActive(false); //Disable if you would like to see the nodes rendered
+            gridNode.SetActive(true); //Disable if you would like to see the nodes rendered
         }
 
         nodes = new GameObject[gridBoundX + 1, gridBoundY + 1];
