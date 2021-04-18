@@ -70,10 +70,16 @@ public class Dwarf : MonoBehaviour
                     }
                 }
                 flockWeight = 1;
+
+                //flocking weigh behaviors for wander
+                flockAgent.UpdateWeights(1.0f, 3.0f, 4.0f, 0.9f, 5.0f);
                 break;
             case (int)States.flee:
                 steering = flee.calculateMove((Vector2)target.transform.position, transform.position, body, speed);
                 flockWeight = 1;
+
+                //flock behaviour weights for flee
+                flockAgent.UpdateWeights(1.0f, 3.0f, 4.0f, 0.9f, 5.0f);
                 break;
             case (int)States.follow:
                 if(Vector2.Distance(transform.position, target.transform.position) < 2f){
@@ -81,7 +87,12 @@ public class Dwarf : MonoBehaviour
                 }
                 follow.leader = target.GetComponent<Rigidbody2D>();
                 steering = follow.Movement();
-                flockWeight = 0;
+                flockWeight = 1;
+
+                // flock behaviour weights for follow
+                flockAgent.UpdateWeights(0.01f, 0.01f, 0.01f, 0.9f, 1.0f);
+                Debug.Log("following");
+                Debug.Log(gameObject);
                 break;
             default:
                 state = (int)States.wander;
