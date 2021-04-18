@@ -35,6 +35,7 @@ public class Dwarf : MonoBehaviour
     public int viewAngle = 180;
 
     public AudioClip deathSound;
+    float dstToTarget;
 
     // Start is called before the first frame update
     void Start()
