@@ -398,17 +398,13 @@ MonoBehaviour:
   gridNode: {fileID: 2092519628}
   nodePrefab: {fileID: 644320179408593104, guid: 5db7669cf6773e243a505b5e4ac0a2b9,
     type: 3}
-  scanStartX: -1000
-  scanStartY: -1000
-  scanFinishX: 1000
-  scanFinishY: 1000
-  gridSizeX: 0
-  gridSizeY: 0
   riverDirection:
   - north
   - east
   riverWidth: 3
   riverBranch: 5
+  loadingPanel: {fileID: 0}
+  loadingText: {fileID: 0}
 --- !u!114 &228990185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,6 +783,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4479200593441364930, guid: a97f2d1992b9b4f5b870a42fdc056e78,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4588117352648601883, guid: a97f2d1992b9b4f5b870a42fdc056e78,
+        type: 3}
+      propertyPath: deathSound
+      value: 
+      objectReference: {fileID: 8300000, guid: db04ed4ad82bc3e42a5988b72feca133, type: 3}
     - target: {fileID: 6572093639762677844, guid: a97f2d1992b9b4f5b870a42fdc056e78,
         type: 3}
       propertyPath: m_RootOrder

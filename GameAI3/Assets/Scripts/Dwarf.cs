@@ -131,6 +131,7 @@ public class Dwarf : MonoBehaviour
         if (col.gameObject.GetComponent<Player>() != null){
             // target = col.gameObject;
             if(!col.gameObject.GetComponent<Player>().followers.Contains(this)){
+                flockAgent.RemoveFromFlock();
                 int followersCount = col.gameObject.GetComponent<Player>().followers.Count;
                 if(followersCount > 0){
                     target = col.gameObject.GetComponent<Player>().followers[followersCount-1].gameObject;

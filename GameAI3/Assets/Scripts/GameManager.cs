@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     public int goblinScore = 0;
     public int playerScore = 0;
-    public int dwarvesRemaining = 1;
+    public int dwarvesRemaining;
 
     //UI references
     public GameObject pauseMenu;
@@ -63,7 +63,6 @@ public class GameManager : MonoBehaviour
 
     public void AddGoblinScore(){
         goblinScore++;
-        //dwarvesRemaining--;
     }
 
     public void AddPlayerScore(){
@@ -72,6 +71,14 @@ public class GameManager : MonoBehaviour
 
     public void MinusPlayerScore(){
         playerScore--;
+    }
+
+    public void SetDwarvesRemaining(int a){
+        dwarvesRemaining = a;
+    }
+
+    public void MinusDwarvesRemaining(){
+        dwarvesRemaining--;
     }
 
     void GameOver(){

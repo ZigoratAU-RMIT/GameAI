@@ -12,6 +12,8 @@ public class Flock : MonoBehaviour
     List<FlockAgent> agents = new List<FlockAgent>();
     public FlockBehavior behavior;
 
+    GameManager gm;
+
     [Range(5, 200)]
     public int startingCount = 15;
     const float AgentDensity = 0.08f;
@@ -39,6 +41,7 @@ public class Flock : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         avoidRadius = avoidanceRadiusMultiplier + neighborRadius;
         squareMaxSpeed = maxSpeed * maxSpeed;
         squareNeighborRadius = neighborRadius * neighborRadius;
@@ -54,6 +57,8 @@ public class Flock : MonoBehaviour
             newAgent.Initialize(this);
             agents.Add(newAgent);
         }
+
+        gm.SetDwarvesRemaining(agents.Count);
     }
 
     // Update is called once per frame
@@ -92,6 +97,7 @@ public class Flock : MonoBehaviour
 
     public void RemoveAgent(FlockAgent agent){
         agents.Remove(agent);
+        gm.MinusDwarvesRemaining();
     }
 
 }
