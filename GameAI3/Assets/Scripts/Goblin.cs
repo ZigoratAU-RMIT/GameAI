@@ -89,6 +89,10 @@ public class Goblin : MonoBehaviour
 
                 break;
             case (int)States.seek:
+                if(target == null){
+                    state = (int)States.wander;
+                    return;
+                }
 
                 if (Vector2.Distance(transform.position, targetPosition) < 3f){
                     state = (int)States.chase;
@@ -132,8 +136,10 @@ public class Goblin : MonoBehaviour
 
                 break;
             case (int)States.chase:
-                if(target == null)
+                if(target == null){
                     state = (int)States.wander;
+                    return;
+                }
 
                 steering = seek.Movement((Vector2)target.transform.position, transform.position, body.velocity, speed);
 
