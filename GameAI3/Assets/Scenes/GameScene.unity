@@ -292,6 +292,16 @@ PrefabInstance:
       propertyPath: layer.m_Bits
       value: 256
       objectReference: {fileID: 0}
+    - target: {fileID: 4479200593441364930, guid: a97f2d1992b9b4f5b870a42fdc056e78,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479200593441364930, guid: a97f2d1992b9b4f5b870a42fdc056e78,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4588117352648601883, guid: a97f2d1992b9b4f5b870a42fdc056e78,
         type: 3}
       propertyPath: layer.m_Bits
@@ -6850,7 +6860,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -141.8}
+  m_AnchoredPosition: {x: 0, y: -100.8}
   m_SizeDelta: {x: 160, y: 64.86342}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1717618621
