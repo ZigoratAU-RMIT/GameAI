@@ -1,0 +1,23 @@
+behaviors:
+  DwarfBehavior:
+    trainer_type: ppo
+    hyperparameters:
+      batch_size: 32
+      buffer_size: 2048
+      learning_rate: 3e-4
+      beta: 0.0005
+      epsilon: 0.2
+      lambd: 0.95
+      num_epoch: 10
+      learning_rate_schedule: linear
+    network_settings:
+      normalize: false
+      hidden_units: 512
+      num_layers: 2
+    reward_signals:
+      extrinsic:
+        gamma: 0.99
+        strength: 1.0
+    max_steps: 999999999
+    time_horizon: 5
+    summary_freq: 10000

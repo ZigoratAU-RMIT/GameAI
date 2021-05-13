@@ -10,6 +10,8 @@
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ide.rider": "1.1.4",
     "com.unity.ide.vscode": "1.2.3",
+    "com.unity.ml-agents": "file:/Users/s/Documents/1_uni/hons/gait/ml-agents/com.unity.ml-agents",
+    "com.unity.ml-agents.extensions": "file:/Users/s/Documents/1_uni/hons/gait/ml-agents/com.unity.ml-agents.extensions",
     "com.unity.render-pipelines.lightweight": "7.5.3",
     "com.unity.test-framework": "1.1.22",
     "com.unity.textmeshpro": "2.1.1",

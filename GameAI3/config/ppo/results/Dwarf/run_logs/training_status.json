@@ -1,0 +1,29 @@
+{
+    "DwarfBehavior": {
+        "checkpoints": [
+            {
+                "steps": 1435,
+                "file_path": "results/Dwarf/DwarfBehavior/DwarfBehavior-1435.onnx",
+                "reward": 0.0,
+                "creation_time": 1620893083.526919,
+                "auxillary_file_paths": [
+                    "results/Dwarf/DwarfBehavior/DwarfBehavior-1435.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1435,
+            "file_path": "results/Dwarf/DwarfBehavior.onnx",
+            "reward": 0.0,
+            "creation_time": 1620893083.526919,
+            "auxillary_file_paths": [
+                "results/Dwarf/DwarfBehavior/DwarfBehavior-1435.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.26.0",
+        "torch_version": "1.8.1"
+    }
+}
