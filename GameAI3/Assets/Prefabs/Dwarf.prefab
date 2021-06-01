@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6946154403202395402}
   - component: {fileID: 5534197125111290950}
   - component: {fileID: 7884825518091262435}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Dwarf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &-5977256174159816270
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -139,6 +139,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
+  speedMultiplier: 10
 --- !u!114 &5534197125111290950
 MonoBehaviour:
   m_ObjectHideFlags: 0

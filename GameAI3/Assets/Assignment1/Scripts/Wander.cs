@@ -28,8 +28,8 @@ public class Wander : MonoBehaviour {
         steering = Vector2.ClampMagnitude(steering, speed);
         steering /= 15f;
 
-        Debug.DrawRay(transform.position, displacement, Color.green);
-        Debug.DrawRay(transform.position, circleCentre, Color.magenta);
+        //Debug.DrawRay(transform.position, displacement, Color.green);
+        //Debug.DrawRay(transform.position, circleCentre, Color.magenta);
 
         return steering;
     }
