@@ -9,30 +9,34 @@ public class GoblinTraining : MonoBehaviour
     private enum States
     {
         wander,
-        seek,
-        chase,
-        flee
+        seek
     }
 
     private Rigidbody2D body;
-    private Renderer rend;
     private Vector2 steering;
 
     public Wander wander;
     public Seek seek;
 
     public int state = (int)States.wander;
-    private int speed = 5;
-    float dstToTarget;
 
+    [Range(0f, 10f)]
+    public float unseenDst = 3f;
+
+    
+    [Range(0,10)]
+    public int speed = 3;
+
+    [Range(0,20)]
+    public int avoidanceSpeed = 15;
+
+    [Range(0f, 10f)]
+    public float rayDst = 2f;
+
+    float dstToTarget;
     public int viewAngle = 180;
 
-    //Chase
-    private Vector2 targetPosition;
-
     private GameObject target;
-    private int index = 0;
-
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
@@ -43,7 +47,6 @@ public class GoblinTraining : MonoBehaviour
 
     void Start(){
         body = GetComponent<Rigidbody2D>();
-        rend = GetComponent<Renderer>();
     }
 
     void FixedUpdate(){
@@ -56,11 +59,9 @@ public class GoblinTraining : MonoBehaviour
                 for (int i = 0; i < targetsInViewRadius.Length; i++)
                 {
                     GameObject target_ = targetsInViewRadius[i].gameObject;
-                    if (targetsInViewRadius[i].gameObject.GetComponent<Dwarf>() != null){
-                        if (targetsInViewRadius[i].gameObject.GetComponent<Dwarf>().state == 2){ // if dwarf is following player, then ignore
-                            continue;
-                        }
-                    }
+                    //if (targetsInViewRadius[i].gameObject.GetComponent<DwarfAgent>() != null){
+                    //    continue;
+                    //}
                     Vector2 dirToTarget = (target_.transform.position - transform.position).normalized;
                     if (Vector2.Angle(transform.up, dirToTarget) < viewAngle / 2)
                     {
@@ -80,14 +81,14 @@ public class GoblinTraining : MonoBehaviour
 
                 break;
             case (int)States.seek:
-                if(target == null || Vector2.Distance(transform.position, target.transform.position) > 5f){
+                if(target == null || Vector2.Distance(transform.position, target.transform.position) > 3f){
                     state = (int)States.wander;
                     return;
                 }
 
                 //Collision avoidance
                 Vector2 avoidance = Vector2.zero;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 2f, obstacleMask);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, rayDst, obstacleMask);
                 Debug.DrawRay(transform.position, transform.up, Color.green);
                 if(hit.collider != null){
                     Debug.Log("Hit");
@@ -96,8 +97,8 @@ public class GoblinTraining : MonoBehaviour
                     Vector2 hitCentre = new Vector2(obstacleMap.GetCellCenterWorld(coordinate).x, obstacleMap.GetCellCenterWorld(coordinate).y);
                     Debug.DrawLine(transform.position, hitCentre, Color.blue);
                     avoidance = (body.velocity.normalized + new Vector2(transform.position.x, transform.position.y) * 2.0f) - hitCentre;
-                    avoidance = avoidance.normalized * speed;
-                    avoidance = Vector2.ClampMagnitude(avoidance, speed);
+                    avoidance = avoidance.normalized * avoidanceSpeed;
+                    avoidance = Vector2.ClampMagnitude(avoidance, avoidanceSpeed);
                     avoidance /= 15f;
                 }
 

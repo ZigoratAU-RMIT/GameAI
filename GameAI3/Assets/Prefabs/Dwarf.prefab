@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 6946154403202395402}
   - component: {fileID: 5534197125111290950}
   - component: {fileID: 7884825518091262435}
+  - component: {fileID: -5270563045726844434}
+  - component: {fileID: 3714534871371866884}
   m_Layer: 9
   m_Name: Dwarf
   m_TagString: Untagged
@@ -184,3 +186,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 10
   TakeActionsBetweenDecisions: 1
+--- !u!114 &-5270563045726844434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8612544333045380690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80998496e53e3354687358d2095b5940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goal: {fileID: 0}
+  seek: {fileID: 3714534871371866884}
+--- !u!114 &3714534871371866884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8612544333045380690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c1e82e09fc9fc4fb911c4bc50a43ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

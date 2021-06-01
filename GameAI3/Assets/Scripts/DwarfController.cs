@@ -8,8 +8,6 @@ public class DwarfController : MonoBehaviour
     private int speed = 5;
     private Rigidbody2D body;
     private Vector2 steering;
-    private GameObject target;
-    public Transform goal;
     public Seek seek;
 
     void Start(){
@@ -17,10 +15,23 @@ public class DwarfController : MonoBehaviour
     }
 
     void Update(){
-        steering = seek.Movement(goal.position, transform.position, body.velocity, speed);
+
+        
+        Vector2 targetPos = transform.position;
+        if (Input.GetKey(KeyCode.A))
+            targetPos -= Vector2.left;
+        if (Input.GetKey(KeyCode.D))
+            targetPos -= Vector2.right;
+        if (Input.GetKey(KeyCode.W))
+            targetPos -= Vector2.up;
+        if (Input.GetKey(KeyCode.S))
+            targetPos -= Vector2.down;
+
+        steering = seek.Movement(targetPos, transform.position, body.velocity, speed);
 
         body.velocity = Vector2.ClampMagnitude(body.velocity + steering, speed);
         transform.up = body.velocity.normalized;
+
     }
 
     private void OnTriggerEnter2D(Collider2D col){
